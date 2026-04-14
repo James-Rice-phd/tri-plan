@@ -6,7 +6,6 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Tri+Boulder">
-             <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <title>Tri + Boulder — 16 Week Plan</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -25,25 +24,44 @@
   .header-tag { font-size: 11px; letter-spacing: 3px; color: var(--phase-color); font-weight: 700; }
   .header-title { font-size: 22px; font-weight: 800; color: #f8fafc; line-height: 1.2; margin-top: 2px; }
   .header-sub { font-size: 12px; color: #94a3b8; margin-top: 4px; }
-  .week-nav { padding: 12px 16px; background: #1e293b; position: sticky; top: 78px; z-index: 9; border-bottom: 1px solid #334155; }
+  .week-nav {
+    padding: 12px 16px; background: #1e293b;
+    position: sticky; top: 78px; z-index: 9;
+    border-bottom: 1px solid #334155;
+  }
   .week-nav-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
-  .nav-btn { background: none; border: 1px solid #334155; border-radius: 6px; color: #e2e8f0; padding: 6px 12px; font-size: 14px; cursor: pointer; }
+  .nav-btn {
+    background: none; border: 1px solid #334155; border-radius: 6px;
+    color: #e2e8f0; padding: 6px 12px; font-size: 14px; cursor: pointer;
+  }
   .nav-btn:disabled { color: #475569; cursor: default; }
   .nav-btn:active:not(:disabled) { background: #334155; }
   .week-label { font-size: 20px; font-weight: 800; color: #f8fafc; text-align: center; }
-  .phase-label { font-size: 10px; letter-spacing: 2px; font-weight: 700; text-align: center; margin-top: 2px; color: var(--phase-color); }
+  .phase-label {
+    font-size: 10px; letter-spacing: 2px; font-weight: 700; text-align: center; margin-top: 2px;
+    color: var(--phase-color);
+  }
   .week-dots { display: flex; gap: 3px; justify-content: center; flex-wrap: wrap; }
-  .week-dot { width: 20px; height: 20px; border-radius: 4px; border: none; font-size: 9px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .week-dot {
+    width: 20px; height: 20px; border-radius: 4px; border: none;
+    font-size: 9px; font-weight: 700; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+  }
   .week-dot.active { color: #0f172a; }
   .week-dot:not(.active) { background: #334155; color: #94a3b8; }
   .week-dot.recovery:not(.active) { background: #1e3a5f; }
   .days { padding: 8px 12px 24px; }
   .day-card { margin-bottom: 8px; background: #1e293b; border-radius: 10px; overflow: hidden; border: 1px solid #334155; }
-  .day-header { padding: 10px 14px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; }
+  .day-header {
+    padding: 10px 14px; display: flex; align-items: center; justify-content: space-between; cursor: pointer;
+  }
   .day-header:active { background: #334155; }
   .day-name { font-size: 13px; font-weight: 700; color: #f8fafc; }
   .day-tags { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 3px; }
-  .day-tag { display: inline-flex; align-items: center; gap: 3px; padding: 1px 6px; border-radius: 4px; font-size: 10px; font-weight: 600; }
+  .day-tag {
+    display: inline-flex; align-items: center; gap: 3px;
+    padding: 1px 6px; border-radius: 4px; font-size: 10px; font-weight: 600;
+  }
   .day-tag-swim { background: rgba(56,189,248,0.1); color: #38bdf8; }
   .day-tag-bike { background: rgba(74,222,128,0.1); color: #4ade80; }
   .day-tag-run { background: rgba(251,146,60,0.1); color: #fb923c; }
@@ -56,8 +74,14 @@
   .day-detail.open { display: block; }
   .session { margin-top: 10px; padding-left: 10px; border-left: 3px solid var(--session-color); }
   .session-title { font-size: 12px; font-weight: 700; color: var(--session-color); }
-  .session-detail { font-size: 11px; color: #94a3b8; margin-top: 4px; white-space: pre-wrap; line-height: 1.5; }
-  .notes-card { margin: 0 12px 16px; background: #1a2332; border-radius: 10px; padding: 14px; border: 1px solid #334155; }
+  .session-detail {
+    font-size: 11px; color: #94a3b8; margin-top: 4px;
+    white-space: pre-wrap; line-height: 1.5;
+  }
+  .notes-card {
+    margin: 0 12px 16px; background: #1a2332; border-radius: 10px;
+    padding: 14px; border: 1px solid #334155;
+  }
   .notes-label { font-size: 11px; letter-spacing: 2px; color: #60a5fa; font-weight: 700; margin-bottom: 8px; }
   .notes-body { font-size: 12px; color: #94a3b8; line-height: 1.6; }
   .notes-body strong { color: #f8fafc; }
@@ -75,6 +99,7 @@
   <div class="header-title">16-Week Training Plan</div>
   <div class="header-sub">2× swim · 2× bike · 2× tri run · 4× 5K · 3× boulder · rest Sunday</div>
 </div>
+
 <div class="week-nav" id="weekNav">
   <div class="week-nav-row">
     <button class="nav-btn" id="prevBtn" onclick="changeWeek(-1)">← Prev</button>
@@ -86,7 +111,9 @@
   </div>
   <div class="week-dots" id="weekDots"></div>
 </div>
+
 <div class="days" id="daysContainer"></div>
+
 <div class="notes-card" id="coachingNotes">
   <div class="notes-label">COACHING NOTES — WEEK <span id="notesWeekNum">1</span></div>
   <div class="notes-body" id="notesBody"></div>
@@ -94,6 +121,7 @@
     <strong>Daily constant:</strong> Mac's 1.5 hr walk counts toward recovery/movement but not training load. Stay hydrated — Houston heat means ~500 ml extra per outdoor hour above 28°C.
   </div>
 </div>
+
 <div class="notes-card">
   <div class="notes-label">INTENSITY KEY</div>
   <div class="key-item"><strong>Recovery:</strong> Deliberately slower than easy. Conversational+.</div>
@@ -103,7 +131,9 @@
   <div class="key-item"><strong>VO₂max:</strong> Very challenging. Hard to speak. Not quite all-out.</div>
   <div class="key-item"><strong>Speed/Sprint:</strong> 100% maximal effort.</div>
 </div>
+
 <div style="height:40px"></div>
+
 <script>
 const PHASE_COLORS = { base: "#2dd4bf", build: "#f59e0b", peak: "#ef4444" };
 const getPhase = w => w <= 6 ? "base" : w <= 11 ? "build" : "peak";
@@ -111,6 +141,7 @@ const isRecovery = w => [4,8,12].includes(w);
 const isTaper = w => w === 16;
 const hasTransRun = w => [2,4,6,8].includes(w);
 const hasBrick = w => [10,14].includes(w);
+
 const TYPE_META = {
   swim: { icon: "🏊", color: "#38bdf8" },
   bike: { icon: "🚴", color: "#4ade80" },
@@ -119,7 +150,9 @@ const TYPE_META = {
   walk: { icon: "🐕", color: "#94a3b8" },
   rest: { icon: "😴", color: "#64748b" },
 };
-const S = {
+
+// ── WORKOUT DATA ──
+const S = { // Swims: [monSwim (intensity), thuSwim (base)]
   1:[["Swim Base: 800 yd","WU: 200 @ low aerobic\n4×25 drills, RI=0:10\nMS: 2×100 @ moderate aerobic, RI=0:05\n4×25 kick, RI=0:15\nCD: 200 @ low aerobic"],["Swim Base: 800 yd","WU: 200 @ low aerobic\n4×25 drills, RI=0:10\nMS: 2×100 @ moderate aerobic, RI=0:05\n4×25 kick, RI=0:15\nCD: 200 @ low aerobic"]],
   2:[["Swim Base: 900 yd","WU: 200 @ low aerobic\n4×25 drills, RI=0:10\nMS: 3×100 @ moderate aerobic, RI=0:05\n4×25 kick, RI=0:15\nCD: 200 @ low aerobic"],["Swim Base: 900 yd","WU: 200 @ low aerobic\n4×25 drills, RI=0:10\nMS: 3×100 @ moderate aerobic, RI=0:05\n4×25 kick, RI=0:15\nCD: 200 @ low aerobic"]],
   3:[["Swim Fartlek + Sprint: 1000 yd","WU: 200 @ low aerobic\n4×25 drills, RI=0:10\nMS: 4×100 (25 easy/25 hard), RI=0:10\n4×25 kick, RI=0:15\nCD: 200 @ low aerobic"],["Swim Base: 1000 yd","WU: 200 @ low aerobic\n4×25 drills, RI=0:10\nMS: 4×100 @ moderate aerobic, RI=0:05\n4×25 kick, RI=0:15\nCD: 200 @ low aerobic"]],
@@ -137,7 +170,8 @@ const S = {
   15:[["Swim Threshold + Sprint: 1500 yd","WU: 200 @ low aerobic\n4×25 drills, RI=0:10\nMS: 3×300 @ threshold, RI=0:30\n4×25 kick, RI=0:15\nCD: 200 @ low aerobic"],["Swim Base + Lactate: 1500 yd","WU: 200 @ low aerobic\n4×25 drills, RI=0:10\nMS: 4×100 @ moderate aerobic, RI=0:05\n5×100 @ VO₂max, RI=0:30\n4×25 kick, RI=0:15\nCD: 200 @ low aerobic"]],
   16:[["Swim Threshold + Sprint: 900 yd","WU: 200 @ low aerobic\n4×25 drills, RI=0:10\nMS: 2×200 @ threshold, RI=0:45\nCD: 200 @ low aerobic"],["Swim Base + Lactate: 1100 yd","WU: 200 @ low aerobic\n4×25 drills, RI=0:10\nMS: 2×100 @ moderate aerobic, RI=0:05\n4×75 @ VO₂max, RI=0:45\n4×25 kick, RI=0:15\nCD: 200 @ low aerobic"]],
 };
-const B = {
+
+const B = { // Bikes: [tueBike (intensity), satBike (endurance)]
   1:[["Foundation Bike: 30 min","WU: 10 min @ moderate aerobic\nMS: 10 min @ moderate aerobic\nCD: 10 min @ moderate aerobic"],["Foundation Bike: 30 min","WU: 10 min @ moderate aerobic\nMS: 10 min @ moderate aerobic\nCD: 10 min @ moderate aerobic"]],
   2:[["Foundation Bike: 45 min","WU: 10 min @ moderate aerobic\nMS: 25 min @ moderate aerobic\nCD: 10 min @ moderate aerobic"],["Foundation Bike: 45 min","WU: 10 min @ moderate aerobic\nMS: 25 min @ moderate aerobic\nCD: 10 min @ moderate aerobic"]],
   3:[["Foundation Bike: 1 hr","WU: 10 min @ moderate aerobic\nMS: 40 min @ moderate aerobic\nCD: 10 min @ moderate aerobic"],["Foundation Bike: 1 hr","WU: 10 min @ moderate aerobic\nMS: 40 min @ moderate aerobic\nCD: 10 min @ moderate aerobic"]],
@@ -155,7 +189,8 @@ const B = {
   15:[["Tempo Bike: 1:05","WU: 21 min @ moderate aerobic\nMS: 24 min @ threshold\nCD: 20 min @ moderate aerobic"],["Long Bike: 2 hrs","WU: 10 min @ moderate aerobic\nMS: 1 hr 40 min @ moderate aerobic\nCD: 10 min @ moderate aerobic"]],
   16:[["Tempo Bike: 45 min","WU: 8 min @ moderate aerobic\nMS: 2×10 min @ threshold, 10 min active recovery between\nCD: 7 min @ moderate aerobic"],["Recovery Bike: 20 min","WU: 10 min @ recovery\nCD: 10 min @ recovery"]],
 };
-const R = {
+
+const R = { // Runs: [wedRun (intensity), friRun (endurance/long)]
   1:[["Foundation Run: 25 min","WU: 10 min @ moderate aerobic\nMS: 5 min @ moderate aerobic\nCD: 10 min @ moderate aerobic"],["Foundation Run: 25 min","WU: 10 min @ moderate aerobic\nMS: 5 min @ moderate aerobic\nCD: 10 min @ moderate aerobic"]],
   2:[["Foundation Run: 30 min","WU: 10 min @ moderate aerobic\nMS: 10 min @ moderate aerobic\nCD: 10 min @ moderate aerobic"],["Foundation Run: 30 min","WU: 10 min @ moderate aerobic\nMS: 10 min @ moderate aerobic\nCD: 10 min @ moderate aerobic"]],
   3:[["Foundation Run: 35 min","WU: 10 min @ moderate aerobic\nMS: 15 min @ moderate aerobic\nCD: 10 min @ moderate aerobic"],["Foundation Run: 35 min","WU: 10 min @ moderate aerobic\nMS: 15 min @ moderate aerobic\nCD: 10 min @ moderate aerobic"]],
@@ -173,60 +208,86 @@ const R = {
   15:[["Tempo Run: 36 min","WU: 10 min @ low aerobic\nMS: 16 min @ threshold\nCD: 10 min @ low aerobic"],["Long Run: 1:05","WU: 10 min @ moderate aerobic\nMS: 45 min @ moderate aerobic\nCD: 10 min @ moderate aerobic"]],
   16:[["Tempo Run: 30 min","WU: 10 min @ low aerobic\nMS: 10 min @ threshold\nCD: 10 min @ low aerobic"],null],
 };
+
 const BOULDER = {
   base: ["Bouldering: 45–60 min","10 min warm-up: easy traverses, silent feet\n25–35 min climbing:\n• 60% volume (V1–V2): flagging, hip turns, quiet feet\n• 30% projects (V3): max 3–4 attempts, rest 3 min between\n• 10% limit moves (single V4 moves)\n5 min cool-down stretching (forearms, shoulders, hips)"],
   build: ["Bouldering: 50–65 min","10 min warm-up: easy traverses, silent feet\n30–40 min climbing:\n• 50% volume (V1–V2): deliberate footwork, quiet hands\n• 35% projects (V3): isolate crux sequences, then link\n• 15% limit (V3+/V4 moves)\n5 min antagonist work: push-ups 2×15, reverse wrist curls 2×15\n5 min cool-down stretching"],
   peak: ["Bouldering: 50–65 min","10 min warm-up: easy traverses, silent feet\n30–40 min climbing:\n• 40% volume (V2): efficiency focus, downclimbing\n• 40% projects (V3–V3+): full sends, beta refinement\n• 20% limit (V4 moves/problems)\n5 min antagonist work: push-ups, shoulder external rotation\n5 min cool-down stretching"],
 };
+
 const FIVEK = ["5K Run — Rice Trail","Recovery pace from 2324 Dryden Rd\nRice campus perimeter loop (~3.1 mi)\nWeeks 1–4: genuine recovery pace (10:30–11:15/mi)\nWeeks 5+: moderate aerobic pace\nThis is a movement primer, not a workout"];
 const WALK = ["Dog Walk: ~1.5 hrs","Mac's daily walk/frisbee session\nLeisurely pace — counts toward daily movement"];
 const TRANS = ["Transition Run: 10 min","Run 10 min @ moderate aerobic\nImmediately following bike — no break"];
-const NOTES = {
-  1: `<strong class="warn">⚠ Connective tissue first.</strong> You're jumping from ~12 mi/week of running to ~24 mi/week. The morning 5Ks must be genuinely slow — 10:30–11:15/mi, no ego. Shin splints and Achilles tendinopathy are the real risks at this ramp rate. If anything aches, walk-run the morning 5Ks.<br><br><strong class="climb">🧗 Bouldering focus: silent feet.</strong> Every session this week, spend the first 15 min traversing at V0–V1 with the goal of making zero noise with your feet. Place each foot deliberately, weight it slowly. This single drill addresses the #1 limiter at V3.`,
-  2: `<strong class="warn">⚠ First transition run this week (Saturday).</strong> The 10 min run immediately after the bike will feel odd — heavy legs, high HR relative to pace. That's normal neuromuscular confusion. Don't chase pace; just run easy.<br><br><strong class="climb">🧗 Route-reading drill.</strong> Before every V2+ attempt, stand back 10 feet, trace the entire sequence with your eyes, identify the crux, decide your beta, then climb. No touching the wall until you've read it. This builds the skill that separates V3 climbers from V4 climbers.`,
-  3: `<strong class="phase-c">Volume peaks this base block.</strong> Swim hits 1000 yd, bike hits 1 hr, runs hit 35 min. Your body should be adapting to the 6-day running frequency by now. If morning 5Ks still feel heavy, stay at recovery pace — there's no rush to push these.<br><br><strong class="climb">🧗 Introduce hip engagement.</strong> On every V2 this week, exaggerate turning your hips into the wall on every reach. Your hip should face the wall before your hand moves. This loads your skeleton instead of your arms and is the single biggest unlock for sustained V3 climbing.`,
-  4: `<strong style="color:#60a5fa">♻ Recovery week — respect it.</strong> Volume is deliberately reduced. The fartlek run introduces short VO₂max bursts (30s) which are a new stimulus. The hill climbs on the bike are also new. Both are brief enough that they shouldn't wreck you, but your legs may feel different. Keep morning 5Ks genuinely easy.<br><br><strong class="climb">🧗 Climbing stays at normal volume.</strong> Recovery week applies to tri load, not bouldering. Use this week's sessions to consolidate the footwork and hip engagement drills from weeks 1–3.`,
-  5: `<strong class="phase-c">Final base push.</strong> Swim adds speed intervals for the first time (4×25 @ speed). Bike hill climbs increase to 5 reps. Fartlek run increases to 8×30s. These are all manageable doses of intensity layered onto your aerobic base.<br><br><strong class="climb">🧗 Start projecting V3 with intention.</strong> Pick 2–3 V3 problems and work them across multiple sessions this week. Max 3–4 attempts per problem per session. Between attempts, rest fully (3 min). The goal is quality movement, not fatigue.`,
-  6: `<strong class="phase-c">Base phase finale + transition run.</strong> Bike hits 55 min of hill climbs; the Saturday transition run returns. You should notice that the 5K morning runs feel materially easier than week 1. If so, you can push these toward moderate aerobic pace from here on.<br><br><strong class="climb">🧗 Proprioception drill.</strong> On V2 problems you've already sent, try climbing with your eyes closed for the easy sections. This builds proprioceptive awareness — knowing where your body is in space without looking. It transfers directly to confidence on harder moves.`,
-  7: `<strong style="color:#f59e0b">BUILD PHASE BEGINS.</strong> Big shift this week: swim introduces VO₂max intervals (5×75), bike has 5-min hill climbs at VO₂max, and the run has lactate intervals (12×30s). These sessions will hurt. The purpose is to raise your lactate threshold and VO₂max ceiling.<br><br><strong class="climb">🧗 Add antagonist work.</strong> After climbing, do 2×15 push-ups and 2×15 reverse wrist curls. Climbers develop massive pull strength with weak push muscles — this imbalance causes elbow problems (climber's elbow). Start the habit now.`,
-  8: `<strong style="color:#60a5fa">♻ Recovery week — critical checkpoint.</strong> How do your shins, Achilles, and knees feel? Any persistent soreness that doesn't resolve with a night's sleep is a yellow flag. If anything is nagging, drop morning 5Ks to 2 miles this week.<br><br>Monitor resting HR this week. If it's >3 bpm above your Feb baseline (~55), you're carrying fatigue. The reduced volume should bring it back down by Sunday.<br><br><strong class="climb">🧗 Deload climbing too.</strong> Spend these sessions on volume only — no projecting. Climb V1–V2 with perfect form. Think of it as a technique reset.`,
 
-  9: `<strong style="color:#f59e0b">Biggest build week.</strong> Swim hits 1400 yd with threshold 200s. Bike: 3×5-min VO₂max hill climbs. Run: 14×30s intervals. Friday's long run reaches 55 min. This is the hardest week of the build phase.<br><br>Saturday is a big day: 5K + 1:15 bike + bouldering. Manage energy by keeping the 5K easy and spacing the bike/boulder with at least 2–3 hours' recovery.<br><br><strong class="climb">🧗 Project hard on Monday/Thursday.</strong> You're freshest for climbing at the start of the week. Save Saturday bouldering for volume work — your grip will be compromised after the long bike.`,
-  10: `<strong style="color:#f59e0b">First brick workout (Saturday).</strong> 1-hour bike straight into 20-min run. No morning 5K needed — the brick run counts. The purpose is to train your legs to run on fatigued cycling muscles. Expect the first 5 minutes of running to feel terrible; it gets better.<br><br>Run intervals shift to 8×1 min (longer reps). This is a step toward the sustained tempo efforts coming in peak phase.<br><br><strong class="climb">🧗 V3 consistency check.</strong> Can you send at least 2 different V3 problems in a single session? If yes, start reading V4 problems — even if you can't send them, learning to decode V4 movement patterns is the next step.`,
-  11: `<strong style="color:#f59e0b">Build phase peak week.</strong> Longest continuous sessions: 1:30 bike, 1:05 long run, 4×5-min VO₂max hill climbs. Run intervals hit 10×1 min. Swim rest intervals shorten to 0:20 — the same volume with less recovery is a hidden intensity increase.<br><br>This is peak fatigue before the week 12 recovery. If you feel flat, that's expected. Don't skip sessions — reduce intensity on the morning 5Ks instead.<br><br><strong class="climb">🧗 Limit bouldering.</strong> Increase limit moves to 15% of session time. Try individual moves on V4 problems, even if you can't link them. Work the move 3× then move on. You're training motor patterns, not just strength.`,
-  12: `<strong style="color:#60a5fa">♻ Recovery week + optional sprint tri TT.</strong> Volume drops significantly. Friday has an optional sprint tri time trial (800 yd swim → 12 mi bike → 3 mi run). If you're not feeling it, substitute a brick workout. Saturday is just a 20-min recovery spin.<br><br>This is a reset before the peak phase — take it seriously. Sleep 8+ hours, eat well, hydrate.<br><br><strong class="climb">🧗 Skills-only bouldering.</strong> No projecting this week. Climb V1–V2 with focus on linking moves smoothly. Try to downclimb every problem you send.`,
-  13: `<strong style="color:#ef4444">PEAK PHASE BEGINS.</strong> Training becomes race-specific. Tempo bike (22 min sustained threshold) and tempo run (12 min threshold) replace intervals. These teach your body to hold a hard pace for extended periods. Saturday's bike jumps to 1:45.<br><br>Protect Friday's long run and Saturday's long bike — these are the priority sessions. If something has to give mid-week, drop a morning 5K before cutting a tri session.<br><br><strong class="climb">🧗 V3 should feel routine now.</strong> Warm up through V2, project V3+, and start seriously attempting V4 problems. Work them in 2–3 move sections.`,
-  14: `<strong style="color:#ef4444">Brick week + peak volume.</strong> Saturday is another brick (bike+run). Identical tri sessions to week 13 — the repetition is intentional. Your body consolidates adaptations by repeating the same stimulus.<br><br>This is the highest total training load of the entire plan. Monitor sleep quality and HRV. If HRV drops below 55 ms or resting HR spikes above 62, swap one morning 5K for a walk.<br><br><strong class="climb">🧗 Project session structure.</strong> Dedicate one session entirely to a single V4 problem. Work it in sections: bottom, middle, top. Then try to link. Even if you don't send, you're building the neural patterns.`,
-  15: `<strong style="color:#ef4444">Peak week — highest long-session volume.</strong> Bike reaches 2 hours. Tempo run hits 16 min at threshold. Swim rest intervals at their shortest (0:30). This is the summit of the plan.<br><br>Saturday is massive: 5K + 2-hr bike + bouldering. Eat and hydrate aggressively. Consider adding 200–300 calories of easily digestible carbs during the long bike (banana, gel, sports drink).<br><br><strong class="climb">🧗 Send or learn.</strong> Every project attempt either goes or teaches you something specific. If you're falling at the same spot 3× in a row, step back and rethink the beta entirely.`,
-  16: `<strong style="color:#a78bfa">TAPER WEEK.</strong> Volume drops substantially. The purpose is supercompensation — your body absorbs the accumulated training and comes out stronger. You may feel restless or sluggish mid-week; that's normal.<br><br>Friday is just a 20-min easy shakeout. Saturday is a 20-min recovery spin. Sunday is full rest. Since you're not racing, use this week to test how fit you've become — your morning 5Ks should feel noticeably faster at the same effort.<br><br><strong class="climb">🧗 Send day.</strong> Pick your hardest project and give it everything on Thursday's session. You're rested, you're strong, you're at your peak. This is V4 day.`,
+// ── WEEK-SPECIFIC COACHING NOTES ──
+const NOTES = {
+  1: `<strong class="warn">⚠ Patience is the work this week.</strong> You're coming off a disruption and your aerobic fitness has slipped — you'll feel it in the morning 5Ks. That's fine. You've been here before and you know your body snaps back fast once you're consistent. The trap is trying to accelerate that by pushing the 5Ks too hard too soon. Don't. Run them at a pace where you could hold a conversation with Mac. Genuinely slow — 10:30–11:15/mi. Your cardiovascular system will adapt in weeks; your tendons and fascia need more time, and those are what get injured when you ramp running volume this aggressively.<br><br><strong class="climb">🧗 Silent feet.</strong> Every session this week, spend the first 15 minutes traversing at V0–V1 with one rule: zero noise from your feet. Place each foot like you're stepping on a sleeping cat. This sounds trivial but it's the single highest-leverage drill for V3. The reason you're plateauing isn't finger strength — it's energy leaking through imprecise foot placement. Fix this first.`,
+
+  2: `<strong class="phase-c">Your first transition run is Saturday.</strong> After the 45-min bike you'll immediately run 10 minutes with no break. Your legs will feel like concrete and your heart rate will spike relative to your pace. That's not a fitness problem — it's your neuromuscular system confused by the switch from pedalling to running. Just shuffle through it. Don't look at pace.<br><br>The morning 5Ks should feel slightly less foreign than last week. If they still feel heavy, stay at recovery pace — your body is still recalibrating from the time off. You tend to regain fitness in waves: a flat period, then a noticeable jump. The jump usually comes around weeks 3–4.<br><br><strong class="climb">🧗 Read before you climb.</strong> New rule this week: before every V2+ attempt, stand back 10 feet, trace the entire sequence with your eyes, identify the crux, decide your beta. Don't touch the wall until you've planned the route. This is free — it costs no physical energy — and it's the habit that separates plateau climbers from progressing ones.`,
+
+  3: `<strong class="phase-c">The base is building.</strong> Volume steps up across the board this week — swim hits 1000 yd, bike reaches an hour, runs extend to 35 min. Combined with your 5Ks, Mac's walks, and bouldering, this is a genuinely full training week. The good news: you've sustained training loads like this before and thrived on them. The key is not adding intensity to the volume — everything stays moderate aerobic or below this week.<br><br>Pay attention to how the morning 5Ks feel compared to week 1. If you notice your breathing is easier or your legs feel lighter at the same pace, that's the aerobic base responding. If it's still a grind, stay patient — you're a fast responder once the consistency clicks.<br><br><strong class="climb">🧗 Turn your hips.</strong> On every V2 this week, exaggerate rotating your hips into the wall before each reach. Your hip should face the wall before your hand moves. This transfers your weight onto your skeleton instead of your arms. It feels weird and exaggerated at first — that means you're doing it right. This is the single biggest mechanical change between someone who fights V3 and someone who flows through it.`,
+
+  4: `<strong style="color:#60a5fa">♻ Recovery week.</strong> Volume drops on purpose. Your body doesn't get fitter during training — it gets fitter during recovery from training. This is the week where the adaptations from weeks 1–3 consolidate. Respect it.<br><br>Two new things appear despite the lower volume: the fartlek run introduces short VO₂max bursts (6×30s), and the bike has hill climbs for the first time (4×1 min). Both are brief enough that they won't bury you, but they're a preview of what the build phase demands. Notice how your body responds to genuine high-intensity work — it's been a while.<br><br><strong>Body check.</strong> Three weeks of 6-day running is enough to surface any connective tissue issues. Shins, Achilles, knees — anything that hurts after a night's sleep is a flag. If something's nagging, drop morning 5Ks to 2 miles this week. Better to arrive at week 5 healthy than to push through and lose weeks 6–8 to injury.<br><br><strong class="climb">🧗 Consolidation.</strong> No new technique focus. Use these sessions to bank the silent-feet and hip-engagement patterns from weeks 1–3. The climbing volume stays normal — recovery week applies to tri load, not bouldering.`,
+
+  5: `<strong class="phase-c">Last big base week.</strong> Swim adds speed intervals for the first time (4×25 at full effort). Bike hill climbs go to 5 reps. Fartlek run increases to 8×30s. These are small doses of intensity layered onto the aerobic base you've been building — the goal is to teach your body what "hard" feels like before the build phase demands it for sustained periods.<br><br>Your morning 5Ks should feel like a completely different experience than week 1 by now. If you're naturally running 30–60 seconds per mile faster at the same perceived effort, that's the base phase at work. Push these toward moderate aerobic pace from here on — they're no longer just movement primers, they're aerobic maintenance.<br><br><strong class="climb">🧗 Intentional projecting starts.</strong> Pick 2–3 V3 problems and commit to working them across multiple sessions this week. Max 3–4 attempts per problem per session, with full rest between (3 minutes). The goal isn't to exhaust yourself on the wall — it's to rehearse the movement until it becomes automatic. Quality over volume.`,
+
+  6: `<strong class="phase-c">Base phase finale.</strong> Bike hill climbs peak at 6×1 min. Saturday's transition run returns. This is the last purely aerobic week — the build phase starting next week introduces sustained high-intensity work that will feel very different.<br><br>Take stock of where you are versus where you started. Your morning 5Ks should be noticeably easier, your swimming should feel more rhythmic, and your body should be handling the 6-day training rhythm without protest. If any of those aren't true, don't worry — the build phase will continue driving adaptation. But if you feel genuinely good, that's a sign the base phase did its job and you're ready for what's coming.<br><br>You tend to lose body composition ground during disruptions and regain it when training is consistent. Six weeks of this volume should be starting to shift things in the right direction — you'll see it in forearm vascularity and how your clothes fit before the scale moves.<br><br><strong class="climb">🧗 Eyes-closed climbing.</strong> On V2 problems you've already sent, try climbing sections with your eyes closed. This builds proprioceptive awareness — knowing where your body is in space without looking at every hold. Start with 3–4 moves on familiar terrain. It transfers directly to confidence on harder problems where you can't see the next hold clearly.`,
+
+  7: `<strong style="color:#f59e0b">BUILD PHASE — this is where it gets uncomfortable.</strong> Three new high-intensity session types arrive simultaneously: the swim introduces VO₂max intervals (5×75 at near-max effort), the bike has sustained 5-minute hill climbs at VO₂max (these are long and painful — not the 1-minute sprints from base phase), and the run shifts to structured lactate intervals. These sessions are designed to hurt. If they don't, you're not going hard enough.<br><br>The physiological purpose is different from the base phase. You've built the aerobic engine; now you're raising its ceiling. The base phase trained your body to use oxygen efficiently at moderate effort. The build phase trains it to tolerate and clear lactate at high effort — which is what lets you sustain a faster pace without blowing up.<br><br><strong>Fuel the intensity.</strong> High-intensity sessions deplete glycogen faster than base work. Eat carbs before Tuesday's bike and Wednesday's run — a banana or toast 60–90 min beforehand. Running on empty through interval sessions just degrades workout quality without any upside.<br><br><strong class="climb">🧗 Antagonist work is now mandatory.</strong> After every climbing session from this point forward: 2×15 push-ups and 2×15 reverse wrist curls. You're climbing 3× per week with zero push-pattern training — that's a recipe for medial epicondylitis (climber's elbow). The push-ups and wrist curls take 5 minutes and protect your elbows for the remaining 10 weeks. Non-negotiable.`,
+
+  8: `<strong style="color:#60a5fa">♻ Recovery week — the most important one.</strong> This sits between the first build block (week 7) and the hardest stretch of the entire plan (weeks 9–11). Your body needs to fully absorb the intensity stimulus from last week before you load up again.<br><br><strong>Honest self-assessment time.</strong> How do your shins, Achilles, and knees feel after 7 weeks of 6-day running? Any soreness that persists through a night's sleep is a yellow flag — drop morning 5Ks to 2 miles or walk-run them this week. The transition run on Saturday is short; keep it easy.<br><br>You know your own patterns: when you train hard consistently, your resting heart rate drops and your recovery metrics improve. When you're overreaching, those signals reverse — resting HR creeps up, sleep quality drops, motivation dips. If any of those are happening, this recovery week isn't optional comfort — it's the most productive thing you can do.<br><br>Prioritise sleep this week. 8+ hours. The PhD will always offer you reasons to stay up late; this is the week to resist.<br><br><strong class="climb">🧗 Deload on the wall too.</strong> Volume only — no projecting. Climb V1–V2 with perfect form. Downclimb everything you send. Think of it as a movement meditation. The antagonist exercises still happen.`,
+
+  9: `<strong style="color:#f59e0b">Hardest week of the build phase.</strong> Every session steps up: the swim hits threshold 200s for sustained hard swimming, the bike has 3×5-min VO₂max hill climbs, run intervals increase again, and Friday's long run reaches 55 minutes. This is a demanding week and you should feel it.<br><br><strong>Saturday needs planning.</strong> It's your biggest day: morning 5K, 1:15 bike, then bouldering in the evening. Space the bike and climbing with at least 2–3 hours. Eat a proper meal between them. Your grip and body tension will be compromised after a long ride — accept that and keep Saturday's bouldering focused on volume, not projects.<br><br><strong>Session triage if the PhD demands it:</strong> Protect Wednesday's run intervals and Friday's long run. If something has to give, drop Thursday's morning 5K — you're bouldering that evening anyway and your legs will thank you.<br><br><strong class="climb">🧗 Monday and Thursday are your send sessions.</strong> You're freshest for climbing at the start of the week and mid-week after the swim. That's when you project V3. Saturday is for movement quality and volume.`,
+
+  10: `<strong style="color:#f59e0b">Brick day.</strong> Saturday's session is the first proper brick: 1-hour bike straight into a 20-minute run, no break. No morning 5K needed — the brick counts. The first 5 minutes of running will feel genuinely terrible: heavy legs, shuffling stride, heart rate spiking. This is exactly the point. You're training the neuromuscular transition that makes race-day running off the bike feel manageable. It gets better by minute 8–10.<br><br><strong>Run intervals evolve.</strong> Wednesday shifts from 30-second bursts to 8×1-minute efforts. This is a significant step — you're now holding VO₂max intensity for twice as long per rep. These longer intervals are the bridge to the sustained tempo running coming in peak phase. They should feel very hard but controlled. If you can't finish the last two reps at the prescribed intensity, that's useful information, not failure.<br><br><strong class="climb">🧗 Consistency checkpoint.</strong> Can you send at least 2 different V3 problems in a single session? If yes, it's time to start reading V4 — look at the movement patterns (compression, heel hooks, dynamic moves) even if you can't send them yet. If not, spend more time on the hip-engagement and foot-precision drills from the base phase. Honest assessment, no ego.`,
+
+  11: `<strong style="color:#f59e0b">Build phase summit.</strong> Everything is at its build-phase maximum: the bike reaches 1:30, the long run hits 1:05, hill climbs go to 4×5 min at VO₂max, run intervals hit 10×1 min. The swim is sneakily harder too — rest intervals shrink to 0:20, which means the same yardage with less recovery. That's a hidden intensity increase.<br><br><strong>You will feel flat this week.</strong> That's expected, not a problem. This is peak fatigue before the week 12 recovery. Don't skip sessions — instead, take the intensity down on morning 5Ks. Walk-run them if you need to. The adaptation from this week's stress manifests during recovery, not during the week itself. Trust the process; you've been through hard training blocks before and you know the payoff comes after the rest.<br><br>If you feel worse than flat — genuinely run down, losing motivation, sleeping poorly — that's overreaching, and you should treat week 12's recovery with extra seriousness.<br><br><strong class="climb">🧗 Limit bouldering steps up.</strong> Bump limit work to 15% of session time. Try individual moves on V4 problems even if you can't link them. Work the move 3× then move on. You're training motor recruitment — the strength is already there from 10 weeks of climbing. The forearm pump from tri volume will affect your grip this week; work with it, don't fight it.`,
+
+  12: `<strong style="color:#60a5fa">♻ Recovery week — pre-peak reset.</strong> Volume drops substantially. Friday has an optional sprint tri time trial (800 yd swim → 12 mi bike → 3 mi run) — treat it as a benchmark, not a race. If you're not up for it, substitute a brick. Saturday is just a 20-minute recovery spin.<br><br><strong>This is the most strategically important recovery week.</strong> The peak phase (weeks 13–16) is the most demanding block. If you arrive under-recovered, you'll plateau instead of peaking. Sleep 8+ hours. Eat well. Hydrate. You know from experience that your body rebounds powerfully after proper rest — let it.<br><br>Check in with how your body looks and feels. You've been training consistently for 11 weeks with high running frequency, 3× climbing, and Mac's daily walks. The composition shift happens quietly — you'll see it in how shirts fit across the shoulders and how your forearms look before you see it on a scale.<br><br><strong class="climb">🧗 Skills only.</strong> No projecting this week. Climb V1–V2 with focus on smooth linking and downclimbing everything. This is a climbing reset — when you return to projecting next week, you should feel sharper.`,
+
+  13: `<strong style="color:#ef4444">PEAK PHASE — the character of training changes.</strong> Intervals are gone. In their place: sustained tempo efforts. The bike has 22 minutes at threshold, the run has 12 minutes at threshold. These are uncomfortable in a different way from intervals — instead of short bursts with recovery, you're holding a hard pace for a long time and managing the discomfort. This is what teaches your body to race.<br><br>Saturday's bike jumps to 1:45 — the longest ride yet. Your legs will know about it.<br><br><strong>Priority hierarchy matters now.</strong> The sessions that drive peak fitness are: Friday's long run and Saturday's long bike. If the PhD or life forces a trade-off, drop a morning 5K before cutting either of those. The 5Ks have done their job building base; the tempo and long sessions are what drive you toward your ceiling now.<br><br><strong class="climb">🧗 V3 should be feeling routine.</strong> If it is, warm up through V2 and start seriously working V4 problems. Break them into 2–3 move sections — bottom, middle, top. You're looking for the sequence that links, not muscling through. If V3 still feels like a project, that's fine too — keep working it with the technique you've been building. The timeline doesn't matter; the quality of practice does.`,
+
+  14: `<strong style="color:#ef4444">Peak volume — the biggest training week of the plan.</strong> Saturday is another brick (1-hr bike into 20-min run). The tri sessions are identical to week 13 — the repetition is intentional. Your body consolidates adaptations through repeated exposure to the same stimulus. This week is about execution, not novelty.<br><br><strong>Fatigue management is now a skill.</strong> You know your own warning signs from past training blocks: when resting HR creeps up, when sleep gets restless, when motivation dips. Those signals matter more this week than any other. If you feel yourself trending toward overreach, the smartest move is to swap a morning 5K for a walk with Mac. The 5K calories are trivial; the recovery cost of pushing through fatigue is not.<br><br><strong>Eat enough.</strong> At this training volume, under-eating impairs recovery and immune function. Don't be afraid of carbs on big days. Prioritise protein. If you're losing weight faster than about a pound a week, you're probably in too steep a deficit for this workload.<br><br><strong class="climb">🧗 Single-project sessions.</strong> Dedicate one of this week's three sessions entirely to a single V4 problem. Work it in sections, then try to link. The other two sessions stay mixed. Even if you don't send, the concentrated practice builds neural patterns that eventually connect — you've seen this with V3 problems that suddenly clicked after weeks of work.`,
+
+  15: `<strong style="color:#ef4444">The summit.</strong> Everything is at its maximum: the bike reaches 2 hours, the tempo run hits 16 minutes at threshold (the longest sustained hard effort in the plan), and the swim rest intervals are at their shortest. This is the single hardest week.<br><br><strong>Saturday is enormous.</strong> Morning 5K, 2-hour bike, evening bouldering. Plan your nutrition: eat a real breakfast, bring carbs on the bike (banana, gel, whatever you'll actually eat), hydrate aggressively — Houston heat will punish you if you don't. If you feel hollow after the ride, eat before you boulder. A depleted session on the wall is worse than a delayed one.<br><br>After this week, you taper. Everything you've built over 15 weeks — the aerobic base, the threshold capacity, the climbing technique, the running efficiency — is in the bank. Week 16 is about letting your body cash the cheque.<br><br><strong class="climb">🧗 Send or learn.</strong> Every project attempt this week either goes or teaches you something specific. If you're falling at the same crux 3× in a row, stop and rethink the beta entirely. Try a different body position, a different foot, a heel hook where you were flagging. At V4, the answer is almost never "try harder" — it's "try differently."`,
+
+  16: `<strong style="color:#a78bfa">TAPER WEEK.</strong> Volume drops dramatically and that's the point. Your body doesn't stop adapting when you stop training — it actually peaks 7–10 days after the last hard stimulus. You're getting fitter by doing less.<br><br><strong>You may feel strange mid-week.</strong> Restless, sluggish, irritable, heavy-legged — these are well-documented taper responses. Your body is accustomed to the training load and reads its absence as something being wrong. It's not. By Thursday or Friday you should feel a bounce: legs lighter, breathing easier, energy higher than it's been in weeks.<br><br><strong>Test yourself.</strong> Since you're not racing, use this week as a personal benchmark. Run one morning 5K at "comfortably hard" effort — not all-out, but purposeful. Compare how it feels to your week 1 5Ks. The difference will tell you more about what this plan built than any number on a watch.<br><br>Check in with the big picture: how does your body feel? How does your aerobic fitness compare to where you were 16 weeks ago? How do your clothes fit? How does V3 feel on the wall compared to when you started?<br><br><strong class="climb">🧗 Thursday is send day.</strong> You're rested, you're at peak fitness, and your neuromuscular system has had time to consolidate 15 weeks of climbing practice. Pick your hardest project and give it everything. Full rest between attempts. Read the problem like you've been reading problems all cycle — deliberately, patiently, then commit. This is V4 day.`,
 };
+
+// ── BUILD WEEK ──
 function buildWeek(w) {
   const phaseKey = getPhase(w);
   const swims = S[w]; const bikes = B[w]; const runs = R[w];
   const boulder = BOULDER[phaseKey];
   const satHasTriRun = hasTransRun(w) || hasBrick(w);
   const days = [];
+
+  // MON: 5k + Swim (intensity) + Boulder
   days.push({ day:"Monday", sessions:[
     {t:FIVEK[0],d:FIVEK[1],type:"run"},
     {t:swims[0][0],d:swims[0][1],type:"swim"},
     {t:boulder[0],d:boulder[1],type:"boulder"},
     {t:WALK[0],d:WALK[1],type:"walk"},
   ]});
+  // TUE: 5k + Bike (intensity)
   days.push({ day:"Tuesday", sessions:[
     {t:FIVEK[0],d:FIVEK[1],type:"run"},
     {t:bikes[0][0],d:bikes[0][1],type:"bike"},
     {t:WALK[0],d:WALK[1],type:"walk"},
   ]});
+  // WED: Tri Run (intensity)
   days.push({ day:"Wednesday", sessions:[
     {t:runs[0][0],d:runs[0][1],type:"run"},
     {t:WALK[0],d:WALK[1],type:"walk"},
   ]});
+  // THU: 5k + Swim (base) + Boulder
   days.push({ day:"Thursday", sessions:[
     {t:FIVEK[0],d:FIVEK[1],type:"run"},
     {t:swims[1][0],d:swims[1][1],type:"swim"},
     {t:boulder[0],d:boulder[1],type:"boulder"},
     {t:WALK[0],d:WALK[1],type:"walk"},
   ]});
+  // FRI: Tri Run (endurance/long) or special
   if (w === 12) {
     days.push({ day:"Friday", sessions:[
       {t:"Sprint Tri TT (optional)",d:"Swim 800 yd → Bike 12 mi → Run 3 mi\nOr brick: Bike 45 min + Run 20 min",type:"run"},
@@ -248,6 +309,7 @@ function buildWeek(w) {
       {t:WALK[0],d:WALK[1],type:"walk"},
     ]});
   }
+  // SAT: Bike (endurance) + maybe transition run + Boulder
   const satSessions = [];
   if (!satHasTriRun) satSessions.push({t:FIVEK[0],d:FIVEK[1],type:"run"});
   satSessions.push({t:bikes[1][0],d:bikes[1][1],type:"bike"});
@@ -255,13 +317,17 @@ function buildWeek(w) {
   satSessions.push({t:boulder[0],d:boulder[1],type:"boulder"});
   satSessions.push({t:WALK[0],d:WALK[1],type:"walk"});
   days.push({ day:"Saturday", sessions: satSessions });
+  // SUN: Rest
   days.push({ day:"Sunday", sessions:[
     {t:"FULL REST",d:"No structured training\nDog walk only\nStretch/foam roll if desired",type:"rest"},
     {t:WALK[0],d:WALK[1],type:"walk"},
   ]});
   return days;
 }
+
+// ── RENDER ──
 let currentWeek = 1;
+
 function renderDots() {
   const c = document.getElementById("weekDots");
   c.innerHTML = "";
@@ -275,6 +341,7 @@ function renderDots() {
     c.appendChild(btn);
   }
 }
+
 function render() {
   const w = currentWeek;
   const phase = getPhase(w);
@@ -282,19 +349,25 @@ function render() {
   document.documentElement.style.setProperty("--phase-color", pc);
   document.getElementById("header").style.borderBottomColor = pc;
   document.getElementById("weekLabel").textContent = "Week " + w;
+
   let pLabel = phase.toUpperCase() + " PHASE";
   if (isRecovery(w)) pLabel += " · RECOVERY";
   if (isTaper(w)) pLabel = "TAPER · REDUCED VOLUME";
   document.getElementById("phaseLabel").textContent = pLabel;
+
   document.getElementById("prevBtn").disabled = w === 1;
   document.getElementById("nextBtn").disabled = w === 16;
+
   renderDots();
+
   const days = buildWeek(w);
   const container = document.getElementById("daysContainer");
   container.innerHTML = "";
+
   days.forEach((day, di) => {
     const card = document.createElement("div");
     card.className = "day-card";
+
     const hdr = document.createElement("div");
     hdr.className = "day-header";
     const nonWalk = day.sessions.filter(s => s.type !== "walk");
@@ -303,9 +376,11 @@ function render() {
       return `<span class="day-tag day-tag-${s.type}">${m.icon} ${s.type==="rest"?"Rest":s.t.split(":")[0]}</span>`;
     }).join("");
     hdr.innerHTML = `<div><div class="day-name">${day.day}</div><div class="day-tags">${tagsHtml}</div></div><div class="chevron" id="chev${di}">▼</div>`;
+
     const detail = document.createElement("div");
     detail.className = "day-detail";
     detail.id = "detail" + di;
+
     day.sessions.forEach(s => {
       const m = TYPE_META[s.type];
       const sec = document.createElement("div");
@@ -314,22 +389,28 @@ function render() {
       sec.innerHTML = `<div class="session-title" style="color:${m.color}">${m.icon} ${s.t}</div><div class="session-detail">${s.d}</div>`;
       detail.appendChild(sec);
     });
+
     hdr.onclick = () => {
       const open = detail.classList.toggle("open");
       document.getElementById("chev"+di).classList.toggle("open", open);
     };
+
     card.appendChild(hdr);
     card.appendChild(detail);
     container.appendChild(card);
   });
+
+  // Notes
   document.getElementById("notesWeekNum").textContent = w;
   document.getElementById("notesBody").innerHTML = NOTES[w] || "";
 }
+
 function changeWeek(delta) {
   currentWeek = Math.max(1, Math.min(16, currentWeek + delta));
   render();
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
+
 render();
 </script>
 </body>
