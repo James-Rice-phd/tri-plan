@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -99,7 +98,7 @@
 <div class="header" id="header">
   <div class="header-tag">OLYMPIC TRI + BOULDER</div>
   <div class="header-title">16-Week Training Plan</div>
-  <div class="header-sub">2× swim · 2× bike · 2× tri run · 4× 5K · 3× boulder · 2× strength · rest Sunday</div>
+  <div class="header-sub">Mon/Thu strength + boulder · Wed/Fri run + swim · Tue bike · Sat long bike + boulder · rest Sun</div>
 </div>
 
 <div class="week-nav" id="weekNav">
@@ -264,7 +263,7 @@ const NOTES = {
 
   11: `<strong style="color:#f59e0b">Build phase summit.</strong> Everything is at its build-phase maximum: the bike reaches 1:30, the long run hits 1:05, hill climbs go to 4×5 min at VO₂max, run intervals hit 10×1 min. The swim is sneakily harder too — rest intervals shrink to 0:20, which means the same yardage with less recovery. That's a hidden intensity increase.<br><br><strong>You will feel flat this week.</strong> That's expected, not a problem. This is peak fatigue before the week 12 recovery. Don't skip sessions — instead, take the intensity down on morning 5Ks. Walk-run them if you need to. The adaptation from this week's stress manifests during recovery, not during the week itself. Trust the process; you've been through hard training blocks before and you know the payoff comes after the rest.<br><br>If you feel worse than flat — genuinely run down, losing motivation, sleeping poorly — that's overreaching, and you should treat week 12's recovery with extra seriousness.<br><br><strong class="climb">🧗 Limit bouldering steps up.</strong> Bump limit work to 15% of session time. Try individual moves on V4 problems even if you can't link them. Work the move 3× then move on. You're training motor recruitment — the strength is already there from 10 weeks of climbing. The forearm pump from tri volume will affect your grip this week; work with it, don't fight it.`,
 
-  12: `<strong style="color:#60a5fa">♻ Recovery week — pre-peak reset.</strong> Volume drops substantially. Friday has an optional sprint tri time trial (800 yd swim → 12 mi bike → 3 mi run(; treat it as a benchmark, not a race. If you're not up for it, substitute a brick. Saturday is just a 20-minute recovery spin.<br><br><strong>This is the most strategically important recovery week.</strong> The peak phase (weeks 13–16) is the most demanding block. If you arrive under-recovered, you'll plateau instead of peaking. Sleep 8+ hours. Eat well. Hydrate. You know from experience that your body rebounds powerfully after proper rest — let it.<br><br>Check in with how your body looks and feels. You've been training consistently for 11 weeks with high running frequency, 3× climbing, and Mac's daily walks. The composition shift happens quietly — you'll see it in how shirts fit across the shoulders and how your forearms look before you see it on a scale.<br><br><strong class="climb">🧗 Skills only.</strong> No projecting this week. Climb V1–V2 with focus on smooth linking and downclimbing everything. This is a climbing reset — when you return to projecting next week, you should feel sharper.`,
+  12: `<strong style="color:#60a5fa">♻ Recovery week — pre-peak reset.</strong> Volume drops substantially. Friday has an optional sprint tri time trial (800 yd swim → 12 mi bike → 3 mi run) — treat it as a benchmark, not a race. If you're not up for it, substitute a brick. Saturday is just a 20-minute recovery spin.<br><br><strong>This is the most strategically important recovery week.</strong> The peak phase (weeks 13–16) is the most demanding block. If you arrive under-recovered, you'll plateau instead of peaking. Sleep 8+ hours. Eat well. Hydrate. You know from experience that your body rebounds powerfully after proper rest — let it.<br><br>Check in with how your body looks and feels. You've been training consistently for 11 weeks with high running frequency, 3× climbing, and Mac's daily walks. The composition shift happens quietly — you'll see it in how shirts fit across the shoulders and how your forearms look before you see it on a scale.<br><br><strong class="climb">🧗 Skills only.</strong> No projecting this week. Climb V1–V2 with focus on smooth linking and downclimbing everything. This is a climbing reset — when you return to projecting next week, you should feel sharper.`,
 
   13: `<strong style="color:#ef4444">PEAK PHASE — the character of training changes.</strong> Intervals are gone. In their place: sustained tempo efforts. The bike has 22 minutes at threshold, the run has 12 minutes at threshold. These are uncomfortable in a different way from intervals — instead of short bursts with recovery, you're holding a hard pace for a long time and managing the discomfort. This is what teaches your body to race.<br><br>Saturday's bike jumps to 1:45 — the longest ride yet. Your legs will know about it.<br><br><strong>Priority hierarchy matters now.</strong> The sessions that drive peak fitness are: Friday's long run and Saturday's long bike. If the PhD or life forces a trade-off, drop a morning 5K before cutting either of those. The 5Ks have done their job building base; the tempo and long sessions are what drive you toward your ceiling now.<br><br><strong style="color:#f472b6">💪 Strength reaches its hardest progressions.</strong> Bulgarian split squats with tempo, pistol squat progressions, archer push-ups, ab wheel rollouts. These are legitimately advanced movements — if any feel out of reach, scale back to the build phase versions. The progression is meant to challenge you, not break you. Twenty minutes is the time budget; quality over completion.<br><br><strong class="climb">🧗 V3 should be feeling routine.</strong> If it is, warm up through V2 and start seriously working V4 problems. Break them into 2–3 move sections — bottom, middle, top. You're looking for the sequence that links, not muscling through. If V3 still feels like a project, that's fine too — keep working it with the technique you've been building. The timeline doesn't matter; the quality of practice does.`,
 
@@ -282,15 +281,13 @@ function buildWeek(w) {
   const boulder = BOULDER[phaseKey];
   const strengthA = STRENGTH[phaseKey + "_A"];
   const strengthB = STRENGTH[phaseKey + "_B"];
-  const satHasTriRun = hasTransRun(w) || hasBrick(w);
   const isRecoveryWk = isRecovery(w) || isTaper(w);
   const days = [];
 
-  // MON: 5k + Swim (intensity) + Strength A + Boulder
+  // MON: 5k + Strength A + Boulder (swim moved to Wed/Fri)
   // On recovery weeks, drop strength to maintain reduced load
   const monSessions = [
     {t:FIVEK[0],d:FIVEK[1],type:"run"},
-    {t:swims[0][0],d:swims[0][1],type:"swim"},
   ];
   if (!isRecoveryWk) monSessions.push({t:strengthA[0],d:strengthA[1],type:"strength"});
   monSessions.push({t:boulder[0],d:boulder[1],type:"boulder"});
@@ -303,15 +300,15 @@ function buildWeek(w) {
     {t:bikes[0][0],d:bikes[0][1],type:"bike"},
     {t:WALK[0],d:WALK[1],type:"walk"},
   ]});
-  // WED: Tri Run (intensity)
+  // WED: Tri Run (intensity) + Base Swim
   days.push({ day:"Wednesday", sessions:[
     {t:runs[0][0],d:runs[0][1],type:"run"},
+    {t:swims[1][0],d:swims[1][1],type:"swim"},
     {t:WALK[0],d:WALK[1],type:"walk"},
   ]});
-  // THU: 5k + Swim (base) + Strength B + Boulder
+  // THU: 5k + Strength B + Boulder (swim moved to Wed/Fri)
   const thuSessions = [
     {t:FIVEK[0],d:FIVEK[1],type:"run"},
-    {t:swims[1][0],d:swims[1][1],type:"swim"},
   ];
   if (!isRecoveryWk) thuSessions.push({t:strengthB[0],d:strengthB[1],type:"strength"});
   thuSessions.push({t:boulder[0],d:boulder[1],type:"boulder"});
@@ -319,29 +316,33 @@ function buildWeek(w) {
   days.push({ day:"Thursday", sessions: thuSessions });
   // FRI: Tri Run (endurance/long) or special
   if (w === 12) {
+    // Recovery week: sprint tri TT already includes a swim, so no separate swim
     days.push({ day:"Friday", sessions:[
       {t:"Sprint Tri TT (optional)",d:"Swim 800 yd → Bike 12 mi → Run 3 mi\nOr brick: Bike 45 min + Run 20 min",type:"run"},
       {t:WALK[0],d:WALK[1],type:"walk"},
     ]});
   } else if (w === 16) {
+    // Taper: light shakeout + light swim
     days.push({ day:"Friday", sessions:[
       {t:"Easy Shakeout: 20 min",d:"WU: 5 min walk\nMS: 10 min @ recovery pace\nCD: 5 min walk\nKeep it very easy — you're tapering",type:"run"},
+      {t:swims[0][0],d:swims[0][1],type:"swim"},
       {t:WALK[0],d:WALK[1],type:"walk"},
     ]});
   } else if (runs[1]) {
     days.push({ day:"Friday", sessions:[
       {t:runs[1][0],d:runs[1][1],type:"run"},
+      {t:swims[0][0],d:swims[0][1],type:"swim"},
       {t:WALK[0],d:WALK[1],type:"walk"},
     ]});
   } else {
     days.push({ day:"Friday", sessions:[
       {t:FIVEK[0],d:FIVEK[1],type:"run"},
+      {t:swims[0][0],d:swims[0][1],type:"swim"},
       {t:WALK[0],d:WALK[1],type:"walk"},
     ]});
   }
-  // SAT: Bike (endurance) + maybe transition run + Boulder
+  // SAT: Bike (endurance) + transition run only when tri schedule calls for it + Boulder
   const satSessions = [];
-  if (!satHasTriRun) satSessions.push({t:FIVEK[0],d:FIVEK[1],type:"run"});
   satSessions.push({t:bikes[1][0],d:bikes[1][1],type:"bike"});
   if (hasTransRun(w) && !hasBrick(w)) satSessions.push({t:TRANS[0],d:TRANS[1],type:"run"});
   satSessions.push({t:boulder[0],d:boulder[1],type:"boulder"});
@@ -443,6 +444,5 @@ function changeWeek(delta) {
 
 render();
 </script>
-
 </body>
 </html>
