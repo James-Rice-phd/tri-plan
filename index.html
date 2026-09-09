@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Tri+Boulder">
-<title>Tri + Boulder — 16 Week Plan</title>
+<meta name="apple-mobile-web-app-title" content="Tri+Rugby">
+<title>Tri + Rugby — 16 Week Plan</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   body {
@@ -23,10 +23,10 @@
   }
   .header-tag { font-size: 11px; letter-spacing: 3px; color: var(--phase-color); font-weight: 700; }
   .header-title { font-size: 22px; font-weight: 800; color: #f8fafc; line-height: 1.2; margin-top: 2px; }
-  .header-sub { font-size: 12px; color: #94a3b8; margin-top: 4px; }
+  .header-sub { font-size: 12px; color: #94a3b8; margin-top: 4px; line-height: 1.4; }
   .week-nav {
     padding: 12px 16px; background: #1e293b;
-    position: sticky; top: 78px; z-index: 9;
+    position: sticky; top: 92px; z-index: 9;
     border-bottom: 1px solid #334155;
   }
   .week-nav-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
@@ -57,16 +57,22 @@
   }
   .day-header:active { background: #334155; }
   .day-name { font-size: 13px; font-weight: 700; color: #f8fafc; }
-  .day-tags { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 3px; }
+  .day-tags { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 4px; }
   .day-tag {
     display: inline-flex; align-items: center; gap: 3px;
-    padding: 1px 6px; border-radius: 4px; font-size: 10px; font-weight: 600;
+    padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 600;
   }
+  .day-tag.opt { opacity: 0.45; }
   .day-tag-swim { background: rgba(56,189,248,0.1); color: #38bdf8; }
   .day-tag-bike { background: rgba(74,222,128,0.1); color: #4ade80; }
   .day-tag-run { background: rgba(251,146,60,0.1); color: #fb923c; }
-  .day-tag-boulder { background: rgba(192,132,252,0.1); color: #c084fc; }
+  .day-tag-climb { background: rgba(192,132,252,0.1); color: #c084fc; }
   .day-tag-strength { background: rgba(244,114,182,0.1); color: #f472b6; }
+  .day-tag-rugby { background: rgba(250,204,21,0.12); color: #facc15; }
+  .day-tag-reserve { background: rgba(163,230,53,0.1); color: #a3e635; }
+  .day-tag-golf { background: rgba(163,230,53,0.1); color: #a3e635; }
+  .day-tag-social { background: rgba(45,212,191,0.1); color: #2dd4bf; }
+  .day-tag-bayou { background: rgba(148,163,184,0.1); color: #94a3b8; }
   .day-tag-rest { background: rgba(100,116,139,0.1); color: #64748b; }
   .day-tag-walk { background: rgba(148,163,184,0.1); color: #94a3b8; }
   .chevron { font-size: 16px; color: #64748b; transition: transform 0.2s; }
@@ -74,6 +80,7 @@
   .day-detail { padding: 0 14px 12px; border-top: 1px solid #334155; display: none; }
   .day-detail.open { display: block; }
   .session { margin-top: 10px; padding-left: 10px; border-left: 3px solid var(--session-color); }
+  .session.opt { opacity: 0.6; }
   .session-title { font-size: 12px; font-weight: 700; color: var(--session-color); }
   .session-detail {
     font-size: 11px; color: #94a3b8; margin-top: 4px;
@@ -87,7 +94,9 @@
   .notes-body { font-size: 12px; color: #94a3b8; line-height: 1.6; }
   .notes-body strong { color: #f8fafc; }
   .notes-body .warn { color: #fb923c; }
-  .notes-body .climb { color: #c084fc; }
+  .notes-body .rugby { color: #facc15; }
+  .notes-body .bike { color: #4ade80; }
+  .notes-body .str { color: #f472b6; }
   .notes-body .phase-c { color: var(--phase-color); }
   .notes-footer { margin-top: 10px; font-size: 11px; color: #64748b; line-height: 1.5; }
   .key-item { margin-bottom: 5px; font-size: 11px; line-height: 1.4; }
@@ -96,9 +105,9 @@
 </head>
 <body>
 <div class="header" id="header">
-  <div class="header-tag">OLYMPIC TRI + BOULDER</div>
+  <div class="header-tag">OLYMPIC TRI + RUGBY</div>
   <div class="header-title">16-Week Training Plan</div>
-  <div class="header-sub">Mon/Thu strength + boulder · Wed/Fri run + swim · Tue bike · Sat long bike + boulder · rest Sun</div>
+  <div class="header-sub">Mon/Thu rugby · Wed run + swim · Fri long run · Sat ride + tennis 10am · Sun golf & sacred climb · 4× strength · bayou Tue/Wed/Fri</div>
 </div>
 
 <div class="week-nav" id="weekNav">
@@ -119,7 +128,7 @@
   <div class="notes-label">COACHING NOTES — WEEK <span id="notesWeekNum">1</span></div>
   <div class="notes-body" id="notesBody"></div>
   <div class="notes-footer">
-    <strong>Daily constant:</strong> Mac's 1.5 hr walk counts toward recovery/movement but not training load. Stay hydrated — Houston heat means ~500 ml extra per outdoor hour above 28°C.
+    <strong>Daily constant:</strong> 'Mac ~1.5 hr every day — the bayou hour covers Tue/Wed/Fri. Rugby won't show on the watch; resting HR and HRV will. Log every ride, indoor included. When a week collapses, defend in order: the three bayou hours → the Sunday climb → Saturday tennis; everything else bends. Houston heat: ~500 ml extra per outdoor hour above 28°C.
   </div>
 </div>
 
@@ -141,19 +150,28 @@ const getPhase = w => w <= 6 ? "base" : w <= 11 ? "build" : "peak";
 const isRecovery = w => [4,8,12].includes(w);
 const isTaper = w => w === 16;
 const hasTransRun = w => [2,4,6,8].includes(w);
-const hasBrick = w => [10,14].includes(w);
+const hasBrick = w => w === 10;
+const isTTWeek = w => [2,9,16].includes(w);
 
 const TYPE_META = {
-  swim: { icon: "🏊", color: "#38bdf8" },
-  bike: { icon: "🚴", color: "#4ade80" },
-  run:  { icon: "🏃", color: "#fb923c" },
-  boulder: { icon: "🧗", color: "#c084fc" },
+  swim:     { icon: "🏊", color: "#38bdf8" },
+  bike:     { icon: "🚴", color: "#4ade80" },
+  run:      { icon: "🏃", color: "#fb923c" },
+  climb:    { icon: "🧗", color: "#c084fc" },
   strength: { icon: "💪", color: "#f472b6" },
-  walk: { icon: "🐕", color: "#94a3b8" },
-  rest: { icon: "😴", color: "#64748b" },
+  rugby:    { icon: "🏉", color: "#facc15" },
+  reserve:  { icon: "🎾", color: "#a3e635" },
+  golf:     { icon: "⛳", color: "#a3e635" },
+  social:   { icon: "🌆", color: "#2dd4bf" },
+  bayou:    { icon: "🐕", color: "#94a3b8" },
+  walk:     { icon: "🐕", color: "#94a3b8" },
+  rest:     { icon: "😴", color: "#64748b" },
 };
 
-// ── WORKOUT DATA ──
+// ── TRIATHLON WORKOUT DATA (Fitzgerald 16-week Olympic template) ──
+// S[w] = [intensity swim (Mon), base swim (Wed)]
+// B[w] = [intensity bike (Tue), long bike (Sat)]
+// R[w] = [intensity run (Wed), long run (Fri)]
 const S = { // Swims: [monSwim (intensity), thuSwim (base)]
   1:[["Swim Base: 800 yd","WU: 200 @ low aerobic\n4×25 drills, RI=0:10\nMS: 2×100 @ moderate aerobic, RI=0:05\n4×25 kick, RI=0:15\nCD: 200 @ low aerobic"],["Swim Base: 800 yd","WU: 200 @ low aerobic\n4×25 drills, RI=0:10\nMS: 2×100 @ moderate aerobic, RI=0:05\n4×25 kick, RI=0:15\nCD: 200 @ low aerobic"]],
   2:[["Swim Base: 900 yd","WU: 200 @ low aerobic\n4×25 drills, RI=0:10\nMS: 3×100 @ moderate aerobic, RI=0:05\n4×25 kick, RI=0:15\nCD: 200 @ low aerobic"],["Swim Base: 900 yd","WU: 200 @ low aerobic\n4×25 drills, RI=0:10\nMS: 3×100 @ moderate aerobic, RI=0:05\n4×25 kick, RI=0:15\nCD: 200 @ low aerobic"]],
@@ -211,150 +229,166 @@ const R = { // Runs: [wedRun (intensity), friRun (endurance/long)]
   16:[["Tempo Run: 30 min","WU: 10 min @ low aerobic\nMS: 10 min @ threshold\nCD: 10 min @ low aerobic"],null],
 };
 
-const BOULDER = {
-  base: ["Bouldering: 45–60 min","10 min warm-up: easy traverses, silent feet\n25–35 min climbing:\n• 60% volume (V1–V2): flagging, hip turns, quiet feet\n• 30% projects (V3): max 3–4 attempts, rest 3 min between\n• 10% limit moves (single V4 moves)\n5 min cool-down stretching (forearms, shoulders, hips)"],
-  build: ["Bouldering: 50–65 min","10 min warm-up: easy traverses, silent feet\n30–40 min climbing:\n• 50% volume (V1–V2): deliberate footwork, quiet hands\n• 35% projects (V3): isolate crux sequences, then link\n• 15% limit (V3+/V4 moves)\n5 min cool-down stretching (forearms, shoulders, hips)\nNote: antagonist work now lives in the strength session"],
-  peak: ["Bouldering: 50–65 min","10 min warm-up: easy traverses, silent feet\n30–40 min climbing:\n• 40% volume (V2): efficiency focus, downclimbing\n• 40% projects (V3–V3+): full sends, beta refinement\n• 20% limit (V4 moves/problems)\n5 min cool-down stretching\nNote: antagonist work now lives in the strength session"],
-};
-
-// ── STRENGTH TRAINING (bodyweight, pre-boulder) ──
-// Monday: posterior chain + push (Session A)
-// Thursday: legs + anti-rotation core + push variant (Session B)
-// Progression by phase. ~15–20 min before climbing, before fingers/lats fatigue.
+// ── STRENGTH: four ~12–15 min segments, done at home, none on climbing days ──
 const STRENGTH = {
-  // BASE PHASE — establish movement patterns, build foundation
-  base_A: ["Strength A: 15 min (pre-boulder)","Posterior chain + push focus. Do this BEFORE climbing.\n\n1. Glute bridges: 3×15\n   (hold top for 2s, squeeze)\n2. Single-leg RDL (bodyweight): 3×8 each leg\n   (hinge from hip, slight knee bend, balance)\n3. Incline push-ups: 3×10–12\n   (hands elevated on bench/box for now)\n4. Dead bug: 3×8 each side\n   (slow, controlled, ribs down)\n5. Side plank: 2×30s each side\n\nRest 60s between sets. Keep it brisk."],
-  base_B: ["Strength B: 15 min (pre-boulder)","Legs + anti-rotation + push focus. Do this BEFORE climbing.\n\n1. Bodyweight squats: 3×15\n   (full depth, controlled)\n2. Reverse lunges: 3×10 each leg\n   (step back, drop straight down)\n3. Pike push-ups: 3×8\n   (feet on floor, hips up, push toward feet)\n4. Bird dog: 3×8 each side\n   (slow, no hip rotation, hold 2s at extension)\n5. Plank: 2×45s\n\nRest 60s between sets."],
-
-  // BUILD PHASE — increase difficulty, introduce unilateral
-  build_A: ["Strength A: 18 min (pre-boulder)","Posterior chain + push, harder progressions. BEFORE climbing.\n\n1. Single-leg glute bridges: 3×10 each leg\n2. Single-leg RDL (slow tempo, 3s down): 3×8 each\n3. Standard push-ups: 3×10–15\n   (full ROM, chest to floor)\n4. Hollow body hold: 3×20–30s\n   (lower back glued to floor)\n5. Side plank with leg lift: 2×30s each side\n\n+ Antagonist for climbing:\n• Reverse wrist curls: 2×15 (water bottle or band)\n\nRest 60–90s between strength sets."],
-  build_B: ["Strength B: 18 min (pre-boulder)","Legs + anti-rotation + push variant. BEFORE climbing.\n\n1. Split squats: 3×10 each leg\n   (back foot on floor, no jumping)\n2. Bulgarian split squats (back foot elevated): 3×8 each\n   (only if split squats feel solid)\n3. Decline push-ups: 3×8–10\n   (feet elevated on bench/box)\n4. Pallof press (with band): 3×10 each side\n   (or bird dog 3×10 each if no band)\n5. Plank with shoulder taps: 2×20 total taps\n\n+ Antagonist:\n• Band pull-aparts: 2×15 (rear delts)\n\nRest 60–90s between sets."],
-
-  // PEAK PHASE — advanced progressions, maintain through fatigue
-  peak_A: ["Strength A: 20 min (pre-boulder)","Posterior chain + push, peak progressions. BEFORE climbing.\n\n1. Single-leg glute bridge with pause: 3×10 each\n   (3s hold at top)\n2. Single-leg RDL with reach: 3×8 each\n   (free arm reaches for floor)\n3. Push-ups (close-grip or archer): 3×8–10\n   (build single-arm strength)\n4. Ab wheel rollout (or slider): 3×6–8\n   (or hollow body hold 3×40s if no wheel)\n5. Copenhagen plank: 2×20s each side\n   (advanced — top leg on bench)\n\n+ Antagonist:\n• Reverse wrist curls: 2×15\n• Band pull-aparts: 2×15"],
-  peak_B: ["Strength B: 20 min (pre-boulder)","Legs + anti-rotation. BEFORE climbing.\n\n1. Bulgarian split squats (slow tempo): 3×8 each\n   (3s down, 1s pause, drive up)\n2. Pistol squat progression: 3×5 each leg\n   (assisted to box if needed; full pistol if able)\n3. Decline diamond push-ups: 3×6–8\n   (or standard diamond if decline too hard)\n4. Pallof press hold: 3×20s each side\n   (or side plank rotation 3×8 each)\n5. Hanging knee raises: 2×10\n   (climbing gym always has bars)\n\n+ Antagonist:\n• Band pull-aparts or face pulls: 2×15"],
+  core: {
+    base:  ["Strength 1 — Core + Neck: 12 min","McGill's Big Three plus neck. Holds are 10 s. Descending pyramid: 5 reps, 3 reps, 1 rep — that is one exercise. Leg-light on purpose; rugby tonight.\n\n1. McGill curl-up: 5-3-1 × 10 s (hands under the lumbar arch, lift head and shoulders as one unit, don't flatten the back)\n2. Side plank, knees bent: 5-3-1 × 10 s each side\n3. Bird dog: 5-3-1 × 10 s each side (hips square, no twist)\n4. Four-way isometric neck, hand resistance: 2 × 10 s forward, back, left, right — push into your hand, head doesn't move\n5. Dead hang from a bar: 2 × 20–30 s (doorframe bar, or the rec centre)\n\nShort rests. Endurance, not strength — a back fails when its stabilisers fatigue."],
+    build: ["Strength 1 — Core + Neck: 14 min","Big Three progress; extension gets extra attention.\n\n1. McGill curl-up: 6-4-2 × 10 s\n2. Side plank, legs straight: 6-4-2 × 10 s each side\n3. Bird dog, 3 s squeeze at full extension: 6-4-2 each side\n4. Pallof press (band): 2 × 10 each side (skip if no band)\n5. Four-way isometric neck: 2 × 12 s each direction, plus a third set backward\n6. Dead hang: 2 × 30 s\n\nRest 30–45 s."],
+    peak:  ["Strength 1 — Core + Neck: 15 min","Hardest progressions. Scale any of these back to build versions rather than cheat the form.\n\n1. McGill curl-up: 6-4-2 × 10 s\n2. Side plank with top-leg lift: 6-4-2 × 10 s each side\n3. Bird dog, 5 s hold: 5-3-1 each side\n4. Copenhagen plank, top leg on a chair: 2 × 15–20 s each side (adductors — rugby's groin insurance)\n5. Four-way isometric neck: 3 × 12 s backward, 2 × 10 s the others\n6. Dead hang: 2 × 30–40 s\n\nOptional if form is clean: ab-wheel or slider rollout 2 × 6. Stop if the lower back rounds."],
+  },
+  posterior: {
+    base:  ["Strength 2 — Posterior Chain: 12 min","Hinge, glutes, hamstrings, and the hip stabiliser that guards your knees on six running days.\n\n1. Glute bridge: 3 × 15 (2 s squeeze at the top)\n2. Single-leg RDL, bodyweight: 3 × 8 each leg (hinge from the hip, slight knee bend, balance)\n3. Reverse lunge: 3 × 10 each leg (step back, drop straight down)\n4. Side-lying hip abduction: 2 × 15 each side (slow, toes forward — glute med)\n\nRest 60 s."],
+    build: ["Strength 2 — Posterior Chain: 14 min","Nordics arrive. Low dose on purpose — low volumes build the same hamstring strength and length as high ones, and soreness is why people quit.\n\n1. Single-leg glute bridge: 3 × 10 each leg\n2. Single-leg RDL, 3 s lowering: 3 × 8 each leg\n3. Nordic curl, eccentric only, feet anchored under a couch: 2 × 4 (lower as slowly as you can, push back up with your hands)\n4. Side-lying hip abduction or banded lateral walk: 2 × 15 each side\n5. Reverse lunge with knee drive: 2 × 10 each leg\n\nRest 60–90 s. Expect a sore fortnight from the Nordics."],
+    peak:  ["Strength 2 — Posterior Chain: 15 min","Peak progressions.\n\n1. Single-leg glute bridge, 3 s pause at top: 3 × 10 each leg\n2. Single-leg RDL with reach to the floor: 3 × 8 each leg\n3. Nordic curl, eccentric: 3 × 5\n4. Lateral lunge: 2 × 8 each side (glute med and adductors together)\n5. Reverse lunge, 2 s pause at bottom: 2 × 8 each leg\n\nRest 60–90 s."],
+  },
+  push: {
+    base:  ["Strength 3 — Push + Pull + Antagonist: 12 min","Push and a horizontal pull — the one pattern nothing else in your week does. Upper body only; rugby tonight.\n\n1. Incline push-up, hands on a bench or counter: 3 × 10–12\n2. Inverted row under a sturdy table (or towel row in a doorframe, or band row): 3 × 8–10\n3. Pike push-up: 2 × 8 (hips high, push toward your feet)\n4. Band pull-apart: 2 × 15\n5. Reverse wrist curl, bottle or band: 2 × 15\n\nRest 45–60 s."],
+    build: ["Strength 3 — Push + Pull + Antagonist: 14 min","Full push-ups arrive; chest development starts to show from here.\n\n1. Standard push-up, chest to floor: 3 × 10–15\n2. Inverted row, feet further out: 3 × 8–10\n3. Pike push-up: 2 × 10\n4. Shoulder external rotation (band): 2 × 12 each side\n5. Reverse wrist curl: 2 × 15\n\nOptional: band pull-apart 2 × 15. Rest 60 s."],
+    peak:  ["Strength 3 — Push + Pull + Antagonist: 15 min","Hardest push variants. Scale to build versions if form breaks.\n\n1. Decline push-up, feet on a chair: 3 × 8–10\n2. Diamond or archer push-up: 2 × 6–8\n3. Inverted row, feet elevated: 3 × 8\n4. Shoulder external rotation: 2 × 12 each side\n5. Reverse wrist curl: 2 × 15\n\nRest 60 s."],
+  },
+  legs: {
+    base:  ["Strength 4 — Single-Leg + Floor + Balance: 12 min","Stability is a pillar, not a warm-up. This opens with the sitting-rising test, practised.\n\n1. Floor-to-stand: sit down to the floor and stand back up using as little hand or knee support as you can — 5 reps\n2. Bodyweight squat, full depth: 3 × 15\n3. Split squat: 3 × 10 each leg\n4. Single-leg calf raise: 3 × 12 each leg\n5. Single-leg stance, eyes closed: 2 × 20 s each leg\n\nRest 60 s."],
+    build: ["Strength 4 — Single-Leg + Floor + Carry: 14 min","The carry is the one thing here that isn't bodyweight — it needs a heavy object, not a gym. A full water jug or a loaded backpack.\n\n1. Floor-to-stand, legs crossed: 5 reps, no hands if you can\n2. Bulgarian split squat, back foot on a chair: 3 × 8 each leg\n3. Step-up onto a chair or bench: 2 × 10 each leg\n4. Single-leg calf raise: 3 × 15 each leg\n5. Suitcase carry, one hand: 2 × 30–40 m each side — stand tall, don't lean away from the load\n\nRest 60–90 s."],
+    peak:  ["Strength 4 — Single-Leg + Floor + Carry: 15 min","Peak progressions.\n\n1. Floor-to-stand, legs crossed, slow both ways: 5 reps\n2. Bulgarian split squat, 3 s down, 1 s pause: 3 × 8 each leg\n3. Pistol squat progression (to a box, or assisted): 3 × 5 each leg\n4. Single-leg calf raise: 3 × 15 each leg\n5. Suitcase carry, heavier: 3 × 40 m each side\n\nRest 60–90 s."],
+  },
 };
 
-const FIVEK = ["5K Run — Rice Trail","Recovery pace from 2324 Dryden Rd\nRice campus perimeter loop (~3.1 mi)\nWeeks 1–4: genuine recovery pace (10:30–11:15/mi)\nWeeks 5+: moderate aerobic pace\nThis is a movement primer, not a workout"];
-const WALK = ["Dog Walk: ~1.5 hrs","Mac's daily walk/frisbee session\nLeisurely pace — counts toward daily movement"];
-const TRANS = ["Transition Run: 10 min","Run 10 min @ moderate aerobic\nImmediately following bike — no break"];
-
-// ── WEEK-SPECIFIC COACHING NOTES ──
-const NOTES = {
-  1: `<strong class="warn">⚠ Patience is the work this week.</strong> You're coming off a disruption and your aerobic fitness has slipped — you'll feel it in the morning 5Ks. That's fine. You've been here before and you know your body snaps back fast once you're consistent. The trap is trying to accelerate that by pushing the 5Ks too hard too soon. Don't. Run them at a pace where you could hold a conversation with Mac. Genuinely slow — 10:30–11:15/mi. Your cardiovascular system will adapt in weeks; your tendons and fascia need more time, and those are what get injured when you ramp running volume this aggressively.<br><br><strong style="color:#f472b6">💪 Strength training begins.</strong> Two sessions a week, folded in before bouldering on Monday and Thursday. Twenty minutes, bodyweight only — but don't underestimate them. The goals are unsexy and essential: posterior chain (glutes, hamstrings, lower back), pushing strength to balance all the climbing pull, and real core function. These are the patterns that protect your back into your 50s. Order matters — strength BEFORE climbing. If you flip it, you'll be too cooked to do the strength work properly.<br><br><strong class="climb">🧗 Silent feet.</strong> Every session this week, spend the first 15 minutes traversing at V0–V1 with one rule: zero noise from your feet. Place each foot like you're stepping on a sleeping cat. This sounds trivial but it's the single highest-leverage drill for V3. The reason you're plateauing isn't finger strength — it's energy leaking through imprecise foot placement. Fix this first.`,
-
-  2: `<strong class="phase-c">Your first transition run is Saturday.</strong> After the 45-min bike you'll immediately run 10 minutes with no break. Your legs will feel like concrete and your heart rate will spike relative to your pace. That's not a fitness problem — it's your neuromuscular system confused by the switch from pedalling to running. Just shuffle through it. Don't look at pace.<br><br>The morning 5Ks should feel slightly less foreign than last week. If they still feel heavy, stay at recovery pace — your body is still recalibrating from the time off. You tend to regain fitness in waves: a flat period, then a noticeable jump. The jump usually comes around weeks 3–4.<br><br><strong class="climb">🧗 Read before you climb.</strong> New rule this week: before every V2+ attempt, stand back 10 feet, trace the entire sequence with your eyes, identify the crux, decide your beta. Don't touch the wall until you've planned the route. This is free — it costs no physical energy — and it's the habit that separates plateau climbers from progressing ones.`,
-
-  3: `<strong class="phase-c">The base is building.</strong> Volume steps up across the board this week — swim hits 1000 yd, bike reaches an hour, runs extend to 35 min. Combined with your 5Ks, Mac's walks, and bouldering, this is a genuinely full training week. The good news: you've sustained training loads like this before and thrived on them. The key is not adding intensity to the volume — everything stays moderate aerobic or below this week.<br><br>Pay attention to how the morning 5Ks feel compared to week 1. If you notice your breathing is easier or your legs feel lighter at the same pace, that's the aerobic base responding. If it's still a grind, stay patient — you're a fast responder once the consistency clicks.<br><br><strong class="climb">🧗 Turn your hips.</strong> On every V2 this week, exaggerate rotating your hips into the wall before each reach. Your hip should face the wall before your hand moves. This transfers your weight onto your skeleton instead of your arms. It feels weird and exaggerated at first — that means you're doing it right. This is the single biggest mechanical change between someone who fights V3 and someone who flows through it.`,
-
-  4: `<strong style="color:#60a5fa">♻ Recovery week.</strong> Volume drops on purpose. Your body doesn't get fitter during training — it gets fitter during recovery from training. This is the week where the adaptations from weeks 1–3 consolidate. Respect it.<br><br>Two new things appear despite the lower volume: the fartlek run introduces short VO₂max bursts (6×30s), and the bike has hill climbs for the first time (4×1 min). Both are brief enough that they won't bury you, but they're a preview of what the build phase demands. Notice how your body responds to genuine high-intensity work — it's been a while.<br><br><strong>Body check.</strong> Three weeks of 6-day running is enough to surface any connective tissue issues. Shins, Achilles, knees — anything that hurts after a night's sleep is a flag. If something's nagging, drop morning 5Ks to 2 miles this week. Better to arrive at week 5 healthy than to push through and lose weeks 6–8 to injury.<br><br><strong style="color:#f472b6">💪 Strength deloads this week.</strong> Skip both Monday and Thursday strength sessions. Recovery week applies to strength too — the patterns will still be there next week. This isn't laziness; it's good programming.<br><br><strong class="climb">🧗 Consolidation.</strong> No new technique focus. Use these sessions to bank the silent-feet and hip-engagement patterns from weeks 1–3. The climbing volume stays normal — recovery week applies to tri load, not bouldering.`,
-
-  5: `<strong class="phase-c">Last big base week.</strong> Swim adds speed intervals for the first time (4×25 at full effort). Bike hill climbs go to 5 reps. Fartlek run increases to 8×30s. These are small doses of intensity layered onto the aerobic base you've been building — the goal is to teach your body what "hard" feels like before the build phase demands it for sustained periods.<br><br>Your morning 5Ks should feel like a completely different experience than week 1 by now. If you're naturally running 30–60 seconds per mile faster at the same perceived effort, that's the base phase at work. Push these toward moderate aerobic pace from here on — they're no longer just movement primers, they're aerobic maintenance.<br><br><strong class="climb">🧗 Intentional projecting starts.</strong> Pick 2–3 V3 problems and commit to working them across multiple sessions this week. Max 3–4 attempts per problem per session, with full rest between (3 minutes). The goal isn't to exhaust yourself on the wall — it's to rehearse the movement until it becomes automatic. Quality over volume.`,
-
-  6: `<strong class="phase-c">Base phase finale.</strong> Bike hill climbs peak at 6×1 min. Saturday's transition run returns. This is the last purely aerobic week — the build phase starting next week introduces sustained high-intensity work that will feel very different.<br><br>Take stock of where you are versus where you started. Your morning 5Ks should be noticeably easier, your swimming should feel more rhythmic, and your body should be handling the 6-day training rhythm without protest. If any of those aren't true, don't worry — the build phase will continue driving adaptation. But if you feel genuinely good, that's a sign the base phase did its job and you're ready for what's coming.<br><br>You tend to lose body composition ground during disruptions and regain it when training is consistent. Six weeks of this volume should be starting to shift things in the right direction — you'll see it in forearm vascularity and how your clothes fit before the scale moves.<br><br><strong class="climb">🧗 Eyes-closed climbing.</strong> On V2 problems you've already sent, try climbing sections with your eyes closed. This builds proprioceptive awareness — knowing where your body is in space without looking at every hold. Start with 3–4 moves on familiar terrain. It transfers directly to confidence on harder problems where you can't see the next hold clearly.`,
-
-  7: `<strong style="color:#f59e0b">BUILD PHASE — this is where it gets uncomfortable.</strong> Three new high-intensity session types arrive simultaneously: the swim introduces VO₂max intervals (5×75 at near-max effort), the bike has sustained 5-minute hill climbs at VO₂max (these are long and painful — not the 1-minute sprints from base phase), and the run shifts to structured lactate intervals. These sessions are designed to hurt. If they don't, you're not going hard enough.<br><br>The physiological purpose is different from the base phase. You've built the aerobic engine; now you're raising its ceiling. The base phase trained your body to use oxygen efficiently at moderate effort. The build phase trains it to tolerate and clear lactate at high effort — which is what lets you sustain a faster pace without blowing up.<br><br><strong>Fuel the intensity.</strong> High-intensity sessions deplete glycogen faster than base work. Eat carbs before Tuesday's bike and Wednesday's run — a banana or toast 60–90 min beforehand. Running on empty through interval sessions just degrades workout quality without any upside.<br><br><strong style="color:#f472b6">💪 Strength progressions step up.</strong> Push-ups go from incline to standard (full ROM). Single-leg work gets a slow tempo (3 seconds down). Hollow body holds replace dead bugs. Antagonist work for climbing (reverse wrist curls, band pull-aparts) folds into the strength sessions where it makes more sense. The volume is still 18 minutes — you're doing harder versions of the same patterns, not more of them.<br><br><strong class="climb">🧗 Climbing focus shifts.</strong> The antagonist exercises that used to live in your bouldering session now live in strength training. Your climbing sessions can focus entirely on climbing. You're climbing 3× per week with structured push-pattern training; the climber's elbow risk is now mitigated.`,
-
-  8: `<strong style="color:#60a5fa">♻ Recovery week — the most important one.</strong> This sits between the first build block (week 7) and the hardest stretch of the entire plan (weeks 9–11). Your body needs to fully absorb the intensity stimulus from last week before you load up again.<br><br><strong>Honest self-assessment time.</strong> How do your shins, Achilles, and knees feel after 7 weeks of 6-day running? Any soreness that persists through a night's sleep is a yellow flag — drop morning 5Ks to 2 miles or walk-run them this week. The transition run on Saturday is short; keep it easy.<br><br>You know your own patterns: when you train hard consistently, your resting heart rate drops and your recovery metrics improve. When you're overreaching, those signals reverse — resting HR creeps up, sleep quality drops, motivation dips. If any of those are happening, this recovery week isn't optional comfort — it's the most productive thing you can do.<br><br>Prioritise sleep this week. 8+ hours. The PhD will always offer you reasons to stay up late; this is the week to resist.<br><br><strong class="climb">🧗 Deload on the wall too.</strong> Volume only — no projecting. Climb V1–V2 with perfect form. Downclimb everything you send. Think of it as a movement meditation. The antagonist exercises still happen.`,
-
-  9: `<strong style="color:#f59e0b">Hardest week of the build phase.</strong> Every session steps up: the swim hits threshold 200s for sustained hard swimming, the bike has 3×5-min VO₂max hill climbs, run intervals increase again, and Friday's long run reaches 55 minutes. This is a demanding week and you should feel it.<br><br><strong>Saturday needs planning.</strong> It's your biggest day: morning 5K, 1:15 bike, then bouldering in the evening. Space the bike and climbing with at least 2–3 hours. Eat a proper meal between them. Your grip and body tension will be compromised after a long ride — accept that and keep Saturday's bouldering focused on volume, not projects.<br><br><strong>Session triage if the PhD demands it:</strong> Protect Wednesday's run intervals and Friday's long run. If something has to give, drop Thursday's morning 5K — you're bouldering that evening anyway and your legs will thank you.<br><br><strong class="climb">🧗 Monday and Thursday are your send sessions.</strong> You're freshest for climbing at the start of the week and mid-week after the swim. That's when you project V3. Saturday is for movement quality and volume.`,
-
-  10: `<strong style="color:#f59e0b">Brick day.</strong> Saturday's session is the first proper brick: 1-hour bike straight into a 20-minute run, no break. No morning 5K needed — the brick counts. The first 5 minutes of running will feel genuinely terrible: heavy legs, shuffling stride, heart rate spiking. This is exactly the point. You're training the neuromuscular transition that makes race-day running off the bike feel manageable. It gets better by minute 8–10.<br><br><strong>Run intervals evolve.</strong> Wednesday shifts from 30-second bursts to 8×1-minute efforts. This is a significant step — you're now holding VO₂max intensity for twice as long per rep. These longer intervals are the bridge to the sustained tempo running coming in peak phase. They should feel very hard but controlled. If you can't finish the last two reps at the prescribed intensity, that's useful information, not failure.<br><br><strong class="climb">🧗 Consistency checkpoint.</strong> Can you send at least 2 different V3 problems in a single session? If yes, it's time to start reading V4 — look at the movement patterns (compression, heel hooks, dynamic moves) even if you can't send them yet. If not, spend more time on the hip-engagement and foot-precision drills from the base phase. Honest assessment, no ego.`,
-
-  11: `<strong style="color:#f59e0b">Build phase summit.</strong> Everything is at its build-phase maximum: the bike reaches 1:30, the long run hits 1:05, hill climbs go to 4×5 min at VO₂max, run intervals hit 10×1 min. The swim is sneakily harder too — rest intervals shrink to 0:20, which means the same yardage with less recovery. That's a hidden intensity increase.<br><br><strong>You will feel flat this week.</strong> That's expected, not a problem. This is peak fatigue before the week 12 recovery. Don't skip sessions — instead, take the intensity down on morning 5Ks. Walk-run them if you need to. The adaptation from this week's stress manifests during recovery, not during the week itself. Trust the process; you've been through hard training blocks before and you know the payoff comes after the rest.<br><br>If you feel worse than flat — genuinely run down, losing motivation, sleeping poorly — that's overreaching, and you should treat week 12's recovery with extra seriousness.<br><br><strong class="climb">🧗 Limit bouldering steps up.</strong> Bump limit work to 15% of session time. Try individual moves on V4 problems even if you can't link them. Work the move 3× then move on. You're training motor recruitment — the strength is already there from 10 weeks of climbing. The forearm pump from tri volume will affect your grip this week; work with it, don't fight it.`,
-
-  12: `<strong style="color:#60a5fa">♻ Recovery week — pre-peak reset.</strong> Volume drops substantially. Friday has an optional sprint tri time trial (800 yd swim → 12 mi bike → 3 mi run) — treat it as a benchmark, not a race. If you're not up for it, substitute a brick. Saturday is just a 20-minute recovery spin.<br><br><strong>This is the most strategically important recovery week.</strong> The peak phase (weeks 13–16) is the most demanding block. If you arrive under-recovered, you'll plateau instead of peaking. Sleep 8+ hours. Eat well. Hydrate. You know from experience that your body rebounds powerfully after proper rest — let it.<br><br>Check in with how your body looks and feels. You've been training consistently for 11 weeks with high running frequency, 3× climbing, and Mac's daily walks. The composition shift happens quietly — you'll see it in how shirts fit across the shoulders and how your forearms look before you see it on a scale.<br><br><strong class="climb">🧗 Skills only.</strong> No projecting this week. Climb V1–V2 with focus on smooth linking and downclimbing everything. This is a climbing reset — when you return to projecting next week, you should feel sharper.`,
-
-  13: `<strong style="color:#ef4444">PEAK PHASE — the character of training changes.</strong> Intervals are gone. In their place: sustained tempo efforts. The bike has 22 minutes at threshold, the run has 12 minutes at threshold. These are uncomfortable in a different way from intervals — instead of short bursts with recovery, you're holding a hard pace for a long time and managing the discomfort. This is what teaches your body to race.<br><br>Saturday's bike jumps to 1:45 — the longest ride yet. Your legs will know about it.<br><br><strong>Priority hierarchy matters now.</strong> The sessions that drive peak fitness are: Friday's long run and Saturday's long bike. If the PhD or life forces a trade-off, drop a morning 5K before cutting either of those. The 5Ks have done their job building base; the tempo and long sessions are what drive you toward your ceiling now.<br><br><strong style="color:#f472b6">💪 Strength reaches its hardest progressions.</strong> Bulgarian split squats with tempo, pistol squat progressions, archer push-ups, ab wheel rollouts. These are legitimately advanced movements — if any feel out of reach, scale back to the build phase versions. The progression is meant to challenge you, not break you. Twenty minutes is the time budget; quality over completion.<br><br><strong class="climb">🧗 V3 should be feeling routine.</strong> If it is, warm up through V2 and start seriously working V4 problems. Break them into 2–3 move sections — bottom, middle, top. You're looking for the sequence that links, not muscling through. If V3 still feels like a project, that's fine too — keep working it with the technique you've been building. The timeline doesn't matter; the quality of practice does.`,
-
-  14: `<strong style="color:#ef4444">Peak volume — the biggest training week of the plan.</strong> Saturday is another brick (1-hr bike into 20-min run). The tri sessions are identical to week 13 — the repetition is intentional. Your body consolidates adaptations through repeated exposure to the same stimulus. This week is about execution, not novelty.<br><br><strong>Fatigue management is now a skill.</strong> You know your own warning signs from past training blocks: when resting HR creeps up, when sleep gets restless, when motivation dips. Those signals matter more this week than any other. If you feel yourself trending toward overreach, the smartest move is to swap a morning 5K for a walk with Mac. The 5K calories are trivial; the recovery cost of pushing through fatigue is not.<br><br><strong>Eat enough.</strong> At this training volume, under-eating impairs recovery and immune function. Don't be afraid of carbs on big days. Prioritise protein. If you're losing weight faster than about a pound a week, you're probably in too steep a deficit for this workload.<br><br><strong class="climb">🧗 Single-project sessions.</strong> Dedicate one of this week's three sessions entirely to a single V4 problem. Work it in sections, then try to link. The other two sessions stay mixed. Even if you don't send, the concentrated practice builds neural patterns that eventually connect — you've seen this with V3 problems that suddenly clicked after weeks of work.`,
-
-  15: `<strong style="color:#ef4444">The summit.</strong> Everything is at its maximum: the bike reaches 2 hours, the tempo run hits 16 minutes at threshold (the longest sustained hard effort in the plan), and the swim rest intervals are at their shortest. This is the single hardest week.<br><br><strong>Saturday is enormous.</strong> Morning 5K, 2-hour bike, evening bouldering. Plan your nutrition: eat a real breakfast, bring carbs on the bike (banana, gel, whatever you'll actually eat), hydrate aggressively — Houston heat will punish you if you don't. If you feel hollow after the ride, eat before you boulder. A depleted session on the wall is worse than a delayed one.<br><br>After this week, you taper. Everything you've built over 15 weeks — the aerobic base, the threshold capacity, the climbing technique, the running efficiency — is in the bank. Week 16 is about letting your body cash the cheque.<br><br><strong class="climb">🧗 Send or learn.</strong> Every project attempt this week either goes or teaches you something specific. If you're falling at the same crux 3× in a row, stop and rethink the beta entirely. Try a different body position, a different foot, a heel hook where you were flagging. At V4, the answer is almost never "try harder" — it's "try differently."`,
-
-  16: `<strong style="color:#a78bfa">TAPER WEEK.</strong> Volume drops dramatically and that's the point. Your body doesn't stop adapting when you stop training — it actually peaks 7–10 days after the last hard stimulus. You're getting fitter by doing less.<br><br><strong>You may feel strange mid-week.</strong> Restless, sluggish, irritable, heavy-legged — these are well-documented taper responses. Your body is accustomed to the training load and reads its absence as something being wrong. It's not. By Thursday or Friday you should feel a bounce: legs lighter, breathing easier, energy higher than it's been in weeks.<br><br><strong>Test yourself.</strong> Since you're not racing, use this week as a personal benchmark. Run one morning 5K at "comfortably hard" effort — not all-out, but purposeful. Compare how it feels to your week 1 5Ks. The difference will tell you more about what this plan built than any number on a watch.<br><br>Check in with the big picture: how does your body feel? How does your aerobic fitness compare to where you were 16 weeks ago? How do your clothes fit? How does V3 feel on the wall compared to when you started?<br><br><strong class="climb">🧗 Thursday is send day.</strong> You're rested, you're at peak fitness, and your neuromuscular system has had time to consolidate 15 weeks of climbing practice. Pick your hardest project and give it everything. Full rest between attempts. Read the problem like you've been reading problems all cycle — deliberately, patiently, then commit. This is V4 day.`,
-};
+// ── EVERYTHING ELSE ──
+const FIVEK = ["5K — Rice Trail","From 2324 Dryden Rd around the campus perimeter (~3.1 mi).\nEasy pace. This is a movement primer, not a workout.\nWeeks 1–4: genuinely slow. Weeks 5+: easy-to-moderate.\nDoesn't feed the watch's fitness estimate — Wed and Fri do."];
+const FIVEK_OPT = ["5K — Rice Trail (optional)","Only if your legs feel fresh — you've got rugby tonight.\nSkip it without guilt on heavy weeks; rugby is the run today.\nIf you go: recovery pace, ~3.1 mi, same loop."];
+const FIVEK_TT = ["5K TIME TRIAL — Rice Loop","Your real fitness benchmark — no algorithm in between.\nSame loop, same start, same time of morning each time.\nWU: 10 min easy jog + 3 strides\nTT: 3.1 mi at comfortably-hard, even effort. Record time and average HR.\nCD: 5–10 min walk/jog\nCompare only to your own previous TTs (weeks 2, 9, 16).\nThis week's afternoon bike drops to moderate aerobic."];
+const LONGRUN_NOTE = "\n\nRun this at an honest moderate aerobic pace, not a shuffle — it's the training intent AND the watch's best weekly data point.";
+const INTRUN_NOTE = "\n\nBefore your 8 am class. Eat something small first. This and Friday's run are what the watch learns from.";
+const SWIM_MON_NOTE = "\n\nRight after class. Pool is wide open at 9:30. Swim sets continuously — touch-and-go at each 100, no stopping.";
+const SWIM_WED_NOTE = "\n\nRight after class, easy — the hard run this morning was the work. Continuous sets, touch-and-go.";
+const BIKE_TUE_NOTE = "\n\nIndoor by default: the rec centre bikes straight after class, or a home trainer. Zero prep — and the only honest way to do hill climbs in a city with no hills. Use resistance for the climbs. Rode in and the weather's good? Outdoor works too. Either way, log it as a workout.";
+const BIKE_SAT_NOTE = "\n\nFirst thing, outdoor — this is the ride where the road matters. Kit and bottles ready Friday night. Weather ruins it? Trainer, same duration, don't skip. This is the session you skip when tired. Log it. Courtside at 10 — the early start is structural now.";
+const CLIMB_WED = ["Chill climb — socket default","This is the Wednesday socket, and the climb is its default occupant.\nBayou hour first, then the gym — the proven pattern.\nGuests take the slot when they come up: vinyl hour roughly monthly,\nwhatever else the calendar serves. On those weeks the climb just\nrests — no make-up, no debt. Sunday already secured climbing's place.\nNo grades, no projects. Podcast on. Leave when you've had enough."];
+const CLIMB_SUN = ["Chill climb, 7:30–9:30 — sacred","The anchor. After mass, never negotiated, never bumped.\nThe most collision-proof slot in the week is what makes climbing\na decades-long fixture instead of the thing that always gives way.\nEasy problems, mat time, audiobook. No goals, ever."];
+const RUGBY_RICE = ["Rugby — Rice, 4–6 pm","Club training. Watch stays off for contact — that's fine.\nThis is your sprint, agility and anaerobic work for the week. Don't add sprints elsewhere.\nOptional: add a Rugby workout in Health afterwards so the record isn't blind."];
+const RUGBY_HARC = ["Rugby — HARC, 6–8 pm","Club training. Watch off for contact.\nSecond hard session of the week; tomorrow's long run is easy on purpose.\nEat properly after — you're fuelling Friday too."];
+const BAYOU = ["Bayou hour — 'Mac","At least an hour on the bayou, ~5:15–6:30.\nThe transition ritual between work and evening — and an hour of\nzone-1 movement that costs the training nothing.\nTue / Wed / Fri are the bayou days now that rugby owns Mon and Thu."];
+const BAYOU_FRI = ["Bayou hour — 'Mac","At least an hour on the bayou, ~5:15–6:30.\nThe transition ritual between work and evening — and an hour of\nzone-1 movement that costs the training nothing.\nSteak nights (1st/3rd Fridays): run it early — Baileson at 6."];
+const SOCKET_TUE = ["Open evening — slack","Deliberately empty. Ad-hoc invitations land here first,\nso they never eat an anchor. If nothing comes up, nothing happens —\nthat's the design working, not a gap."];
+const SOCKET_FRI = ["Open evening — social socket","Open by design. Steaks at Baileson on 1st/3rd Fridays;\nanything else the calendar offers. Whatever the evening becomes:\nSaturday's bike kit is laid out before you go, and home at a\nreasonable hour — the ride is first thing, court at 10."];
+const TENNIS_SAT = ["Tennis with Soren — 10–11 am","Standing court booking at Rice. A fixed time is what survives\nbusy seasons — no weekly negotiation, it's simply where Saturday\nmid-morning goes. Ride first thing so you're off the bike,\nrefuelled and courtside by 10.\nAfternoon and evening stay deliberately open — slack slot two."];
+const GOLF_SUN = ["Golf — range or mat","Sunday morning, solo-capable by design: it depends on nobody.\nHermann Park range when you want ball flight, the home mat when\nyou want reps. Easy morning; the day is still a rest day."];
+const WALK = ["Dog walk: ~1.5 hrs","Mac's daily walk / frisbee session.\nLeisurely — counts toward movement, not load."];
+const TRANS = ["Transition run: 10 min","Run 10 min @ moderate aerobic immediately after the bike — no break."];
+const REST = ["No structured training","Golf this morning, mass this evening, the climb after.\nNo training today — this is the day the week gets absorbed.\nStretch or foam roll if you feel like it."];
 
 // ── BUILD WEEK ──
 function buildWeek(w) {
-  const phaseKey = getPhase(w);
-  const swims = S[w]; const bikes = B[w]; const runs = R[w];
-  const boulder = BOULDER[phaseKey];
-  const strengthA = STRENGTH[phaseKey + "_A"];
-  const strengthB = STRENGTH[phaseKey + "_B"];
-  const isRecoveryWk = isRecovery(w) || isTaper(w);
+  const phase = getPhase(w);
+  const swims = S[w], bikes = B[w], runs = R[w];
+  const strengthOn = !(isRecovery(w) || isTaper(w));
   const days = [];
 
-  // MON: 5k + Strength A + Boulder (swim moved to Wed/Fri)
-  // On recovery weeks, drop strength to maintain reduced load
-  const monSessions = [
-    {t:FIVEK[0],d:FIVEK[1],type:"run"},
+  // MON: optional 5K → class → intensity swim → core → rugby (Rice)
+  const mon = [
+    {t:FIVEK_OPT[0], d:FIVEK_OPT[1], type:"run", opt:true},
+    {t:swims[0][0], d:swims[0][1] + SWIM_MON_NOTE, type:"swim"},
   ];
-  if (!isRecoveryWk) monSessions.push({t:strengthA[0],d:strengthA[1],type:"strength"});
-  monSessions.push({t:boulder[0],d:boulder[1],type:"boulder"});
-  monSessions.push({t:WALK[0],d:WALK[1],type:"walk"});
-  days.push({ day:"Monday", sessions: monSessions });
+  if (strengthOn) mon.push({t:STRENGTH.core[phase][0], d:STRENGTH.core[phase][1], type:"strength"});
+  mon.push({t:RUGBY_RICE[0], d:RUGBY_RICE[1], type:"rugby"});
+  mon.push({t:WALK[0], d:WALK[1], type:"walk"});
+  days.push({ day:"Monday", sessions: mon });
 
-  // TUE: 5k + Bike (intensity)
-  days.push({ day:"Tuesday", sessions:[
-    {t:FIVEK[0],d:FIVEK[1],type:"run"},
-    {t:bikes[0][0],d:bikes[0][1],type:"bike"},
-    {t:WALK[0],d:WALK[1],type:"walk"},
-  ]});
-  // WED: Tri Run (intensity) + Base Swim
+  // TUE: 5K (or TT) → class → intensity bike → posterior chain → bayou → slack socket
+  const tue = [];
+  if (isTTWeek(w)) tue.push({t:FIVEK_TT[0], d:FIVEK_TT[1], type:"run"});
+  else tue.push({t:FIVEK[0], d:FIVEK[1], type:"run"});
+  const tueBikeTitle = isTTWeek(w) ? bikes[0][0].replace(/^[^:]+:/, "Moderate Bike (TT week):") : bikes[0][0];
+  const tueBikeDetail = isTTWeek(w)
+    ? "TT this morning — ride the same duration at moderate aerobic, no intervals." + BIKE_TUE_NOTE
+    : bikes[0][1] + BIKE_TUE_NOTE;
+  tue.push({t:tueBikeTitle, d:tueBikeDetail, type:"bike"});
+  if (strengthOn) tue.push({t:STRENGTH.posterior[phase][0], d:STRENGTH.posterior[phase][1], type:"strength"});
+  tue.push({t:BAYOU[0], d:BAYOU[1], type:"bayou"});
+  tue.push({t:SOCKET_TUE[0], d:SOCKET_TUE[1], type:"social", opt:true});
+  days.push({ day:"Tuesday", sessions: tue });
+
+  // WED: intensity run → class → base swim → bayou → climb socket
   days.push({ day:"Wednesday", sessions:[
-    {t:runs[0][0],d:runs[0][1],type:"run"},
-    {t:swims[1][0],d:swims[1][1],type:"swim"},
-    {t:WALK[0],d:WALK[1],type:"walk"},
+    {t:runs[0][0], d:runs[0][1] + INTRUN_NOTE, type:"run"},
+    {t:swims[1][0], d:swims[1][1] + SWIM_WED_NOTE, type:"swim"},
+    {t:BAYOU[0], d:BAYOU[1], type:"bayou"},
+    {t:CLIMB_WED[0], d:CLIMB_WED[1], type:"climb"},
   ]});
-  // THU: 5k + Strength B + Boulder (swim moved to Wed/Fri)
-  const thuSessions = [
-    {t:FIVEK[0],d:FIVEK[1],type:"run"},
-  ];
-  if (!isRecoveryWk) thuSessions.push({t:strengthB[0],d:strengthB[1],type:"strength"});
-  thuSessions.push({t:boulder[0],d:boulder[1],type:"boulder"});
-  thuSessions.push({t:WALK[0],d:WALK[1],type:"walk"});
-  days.push({ day:"Thursday", sessions: thuSessions });
-  // FRI: Tri Run (endurance/long) or special
+
+  // THU: optional 5K → push/pull → rugby (HARC)
+  const thu = [{t:FIVEK_OPT[0], d:FIVEK_OPT[1], type:"run", opt:true}];
+  if (strengthOn) thu.push({t:STRENGTH.push[phase][0], d:STRENGTH.push[phase][1], type:"strength"});
+  thu.push({t:RUGBY_HARC[0], d:RUGBY_HARC[1], type:"rugby"});
+  thu.push({t:WALK[0], d:WALK[1], type:"walk"});
+  days.push({ day:"Thursday", sessions: thu });
+
+  // FRI: long run (or special) → single-leg → bayou → social socket
+  const fri = [];
   if (w === 12) {
-    // Recovery week: sprint tri TT already includes a swim, so no separate swim
-    days.push({ day:"Friday", sessions:[
-      {t:"Sprint Tri TT (optional)",d:"Swim 800 yd → Bike 12 mi → Run 3 mi\nOr brick: Bike 45 min + Run 20 min",type:"run"},
-      {t:WALK[0],d:WALK[1],type:"walk"},
-    ]});
+    fri.push({t:"Sprint Tri TT (optional)", d:"Swim 800 yd → Bike 12 mi → Run 3 mi. A benchmark, not a race.\nOr brick: Bike 45 min + Run 20 min.\nNot feeling it? Easy 30 min run and move on.", type:"run"});
   } else if (w === 16) {
-    // Taper: light shakeout + light swim
-    days.push({ day:"Friday", sessions:[
-      {t:"Easy Shakeout: 20 min",d:"WU: 5 min walk\nMS: 10 min @ recovery pace\nCD: 5 min walk\nKeep it very easy — you're tapering",type:"run"},
-      {t:swims[0][0],d:swims[0][1],type:"swim"},
-      {t:WALK[0],d:WALK[1],type:"walk"},
-    ]});
-  } else if (runs[1]) {
-    days.push({ day:"Friday", sessions:[
-      {t:runs[1][0],d:runs[1][1],type:"run"},
-      {t:swims[0][0],d:swims[0][1],type:"swim"},
-      {t:WALK[0],d:WALK[1],type:"walk"},
-    ]});
+    fri.push({t:"Easy shakeout: 20 min", d:"WU: 5 min walk\nMS: 10 min @ recovery pace\nCD: 5 min walk\nKeep it very easy — you're tapering.", type:"run"});
   } else {
-    days.push({ day:"Friday", sessions:[
-      {t:FIVEK[0],d:FIVEK[1],type:"run"},
-      {t:swims[0][0],d:swims[0][1],type:"swim"},
-      {t:WALK[0],d:WALK[1],type:"walk"},
-    ]});
+    fri.push({t:runs[1][0], d:runs[1][1] + LONGRUN_NOTE, type:"run"});
   }
-  // SAT: Bike (endurance) + transition run only when tri schedule calls for it + Boulder
-  const satSessions = [];
-  satSessions.push({t:bikes[1][0],d:bikes[1][1],type:"bike"});
-  if (hasTransRun(w) && !hasBrick(w)) satSessions.push({t:TRANS[0],d:TRANS[1],type:"run"});
-  satSessions.push({t:boulder[0],d:boulder[1],type:"boulder"});
-  satSessions.push({t:WALK[0],d:WALK[1],type:"walk"});
-  days.push({ day:"Saturday", sessions: satSessions });
-  // SUN: Rest
+  if (strengthOn) fri.push({t:STRENGTH.legs[phase][0], d:STRENGTH.legs[phase][1], type:"strength"});
+  fri.push({t:BAYOU_FRI[0], d:BAYOU_FRI[1], type:"bayou"});
+  fri.push({t:SOCKET_FRI[0], d:SOCKET_FRI[1], type:"social", opt:true});
+  days.push({ day:"Friday", sessions: fri });
+
+  // SAT: long bike first thing (+ transition/brick when scheduled) → tennis anchor 10–11
+  const sat = [{t:bikes[1][0], d:bikes[1][1] + BIKE_SAT_NOTE, type:"bike"}];
+  if (hasTransRun(w) && !hasBrick(w)) sat.push({t:TRANS[0], d:TRANS[1], type:"run"});
+  sat.push({t:TENNIS_SAT[0], d:TENNIS_SAT[1], type:"reserve"});
+  sat.push({t:WALK[0], d:WALK[1], type:"walk"});
+  days.push({ day:"Saturday", sessions: sat });
+
+  // SUN: golf anchor → rest → sacred climb
   days.push({ day:"Sunday", sessions:[
-    {t:"FULL REST",d:"No structured training\nDog walk only\nStretch/foam roll if desired",type:"rest"},
-    {t:WALK[0],d:WALK[1],type:"walk"},
+    {t:GOLF_SUN[0], d:GOLF_SUN[1], type:"golf"},
+    {t:REST[0], d:REST[1], type:"rest"},
+    {t:CLIMB_SUN[0], d:CLIMB_SUN[1], type:"climb"},
+    {t:WALK[0], d:WALK[1], type:"walk"},
   ]});
+
   return days;
 }
+
+// ── WEEK-SPECIFIC COACHING NOTES ──
+const NOTES = {
+  1: `<strong class="warn">⚠ This is what Jack Daniels calls the foundation-and-injury-prevention phase.</strong> Its only job is steady, easy running that builds the structural resilience to survive harder work later — training to train. Your aerobic engine is in good shape after a summer at altitude; your tendons, your sprinting legs, your swim feel and your cycling legs are not. So the 5Ks are genuinely easy, the long run is moderate, and nothing is hard yet. Matt Fitzgerald's rule applies from day one: easy must be actually easy, or you drift into the moderate rut where you're always a little tired and never quite fit.<br><br><strong class="rugby">🏉 Rugby is the injury risk this week, not the tri work.</strong> First sessions back are when hamstrings go. The rugby-day 5Ks are optional — rugby is the run those days. The strength segments are the protection: posterior chain Tuesday, single-leg Friday.<br><br><strong class="str">💪 Two new things in the strength work.</strong> Monday's core is now built on Stuart McGill's Big Three — ten-second holds in a descending pyramid, because a back that fails usually isn't weak, its stabilisers fatigue. And it ends with four-way isometric neck work: in professional rugby, weaker neck extension goes with more concussions. Two minutes every Monday, before you get tackled.<br><br><strong class="bike">🚴 The bike:</strong> Tuesday indoor at the rec centre straight from class; Saturday's kit out Friday night. Log every ride.`,
+
+  2: `<strong class="phase-c">Tuesday's time trial is the number the whole cycle answers to.</strong> Jack Daniels builds every training pace off one recent all-out effort, not off a watch estimate — and your watch will read you low all autumn because your running is mostly easy and Houston is still hot. Comfortably hard, even effort, same loop, same time of morning. Record time and average heart rate. The afternoon bike goes moderate.<br><br><strong class="phase-c">First transition run Saturday.</strong> Ten minutes straight off the bike. Joe Friel calls transitions the fourth discipline; the concrete-legs feeling is neuromuscular, not fitness. Shuffle through it.<br><br><strong>Swim focus: breathe out.</strong> Paul Newsome's first fix for every triathlete is exhalation. Hold your breath under water and your chest floats, your legs sink, and you get anxious and short of air. Smooth continuous exhale, nose and mouth, on every stroke. That alone improves body position more than any drill.<br><br><strong class="rugby">🏉 Odd bruises, DOMS where running never reaches.</strong> Contact. Normal for a fortnight. A hamstring that stays tight for more than a day is your cue to skip the next optional 5K.<br><br>The watch learns from two runs: Wednesday's and Friday's. Run Friday like you mean it.`,
+
+  3: `<strong class="phase-c">The base is building — and this is the week the bike gets skipped.</strong> Joe Friel defines consistency as the least amount of training that still achieves your goal, and his warning is that missed sessions, not missed intensity, are what stop athletes reaching the finish line. In your record, the session that goes missing is always the ride. Class to the rec centre bike, no stop at home in between.<br><br>Volume steps up in all three disciplines and everything stays below the top of Zone 2. That's Stephen Seiler's finding about how elite endurance athletes actually train: the vast majority of time genuinely easy, a little very hard, almost nothing in between. On a volume week the discipline is staying out of the middle.<br><br><strong>Swim focus: no dead spots.</strong> The most common age-group fault is over-gliding — reach, pause, sink. Swim Smooth's fix is rhythm: a slightly higher stroke rate with continuous propulsion. Touch-and-go at each 100, and don't let the stroke stall at the front.<br><br><strong class="str">💪 The strength segments are working if</strong> you're recovered from Monday's rugby by Wednesday and Thursday's by Saturday. If not, keep the four segments and drop the optional 5Ks — the segments are the recovery investment.`,
+
+  4: `<strong style="color:#60a5fa">♻ Recovery week. Strength is off.</strong> Friel's line: a diet of high-stress training without the counterbalance of rest leads only to problems, not performance. Daniels goes further — hold a training level for about four weeks before adding to it, because adding stress before the body has adapted is how injuries happen. This week is that pause. Volume drops; the body catches up.<br><br>Two new things arrive anyway: fartlek bursts on the run and hill climbs on the bike. Both short. A preview of the build phase, not a demand.<br><br><strong>Body check.</strong> Three weeks of the new rhythm is enough to surface what's going to be a problem: shins, Achilles, and now hamstrings and adductors from rugby. Anything sore after a night's sleep is a flag. Optional 5Ks are already off on rugby days; make Tuesday's a 2-miler too if you need to.<br><br>Climbing and the anchors don't deload — they aren't load. Sit on the mat. The semester is warming up; get ahead of it this week.`,
+
+  5: `<strong class="phase-c">Last big base week.</strong> Speed intervals in the swim, five hill reps on the bike, a longer fartlek. Small doses of intensity on top of the base. Daniels' principle that every session has a purpose applies: these teach your body what hard feels like before the build phase asks for it in sustained blocks. Tuesday's 5K can move to easy-to-moderate from here.<br><br><strong class="rugby">🏉 Rugby should feel normal by now.</strong> Bruising settled, hamstrings adapted, Wednesday's run not compromised by Monday's session. If that's true, the optional 5Ks can come back on the weeks you feel like them. If not, keep skipping them — there's no shame in it.<br><br><strong class="str">💪 The floor-to-stand in Friday's segment isn't a warm-up.</strong> Claudio Araújo's sitting-rising test — getting down to the floor and back up with as little support as possible — predicts mortality in middle age independently of aerobic fitness, several-fold between the worst and best scorers. You're decades from the age it starts to matter, which is exactly when to make it automatic. Five reps, every Friday, for the rest of your life.<br><br><strong class="bike">🚴 Five Saturday rides in the log</strong> is what a base phase looks like. If they're there, you'll feel it next week. If not, fix the prep, not the plan.`,
+
+  6: `<strong class="phase-c">Base phase finale.</strong> Hill climbs peak, the transition run returns. The last purely aerobic week.<br><br><strong>Take stock — from the sessions, not the watch.</strong> Fitzgerald's model of endurance says perception of effort limits you as much as physiology does, so the honest fitness test is how the same session feels. How does Friday's run feel against week 1? How do the last twenty minutes of Thursday rugby feel? How does the Wednesday run feel the morning after Monday's training? Those are the numbers.<br><br><strong>Where this plan sits against the longevity literature.</strong> Peter Attia's four pillars are aerobic efficiency, peak aerobic output, strength, and stability. Your 5Ks, long run and Saturday ride are the first; Wednesday, Tuesday and rugby are the second; the four segments are the third; the single-leg work, floor-to-stand, dead hangs and neck work are the fourth. You aren't training for a race. You're training for the version of you that's still on the wall at eighty.<br><br>Body composition shows in how shirts fit before the scale moves. Weigh in weekly anyway — a trend needs a line.`,
+
+  7: `<strong style="color:#f59e0b">BUILD PHASE — this is where it gets uncomfortable.</strong> Swim intervals near max, five-minute hill climbs, structured run intervals. Daniels' interval prescription rests on two facts: it takes about two minutes to reach VO₂max and you can hold it for roughly eleven, so three-to-five-minute reps are the sweet spot. Tuesday's climbs are exactly that. They should hurt. Seiler's polarised model only works if the hard is genuinely hard — because the easy has been genuinely easy.<br><br><strong class="rugby">🏉 Rugby plus build intensity is the highest weekly stress so far.</strong> Wednesday's intervals sit between two club sessions. Eat before the morning run; don't fight the Tuesday bike if Monday was heavy. Recovery week is seven days away — arrive intact.<br><br><strong class="str">💪 Nordic curls arrive Tuesday.</strong> Honest evidence: prevention programmes that include them roughly halve hamstring injury rates across thousands of players, though the exercise's isolated effect is contested and the trials aren't perfect. What isn't contested is that low doses produce the same strength and architecture changes as high doses, and that soreness is why athletes quit. So: two sets of four, lowered slowly. Expect a sore fortnight. Don't quit.`,
+
+  8: `<strong style="color:#60a5fa">♻ Recovery week — the most important one. Strength is off.</strong> This sits between the first build block and the hardest stretch of the plan.<br><br><strong>Honest self-assessment.</strong> Shins, Achilles, knees after eight weeks of running; hamstrings, groin, shoulders after eight weeks of rugby. Anything that persists through a night's sleep is a flag. You know your own signals — resting heart rate creeping up, restless sleep, motivation dipping — and Fitzgerald's description of the rut is precisely that: always a little tired and not knowing it.<br><br><strong>Sleep is the only recovery tool that isn't marginal.</strong> Attia's line is that if someone sleeps four hours a night, nothing else you fix will matter. Everything else — foam rolling, cold, compression — is noise by comparison. Eight hours. The PhD will always offer a reason not to; this is the week to refuse it.<br><br><strong>Climbing this week is actual chilling.</strong> Easy problems, long rests, the whole podcast episode. Midterms are probably here. Let the mat be where your brain goes quiet.`,
+
+  9: `<strong style="color:#f59e0b">Hardest week of the build phase — and your second time trial.</strong> Same loop, same start, same conditions as week 2. Faster at the same heart rate, or the same time at a lower one, means the block is working regardless of what the watch says. Afternoon ride goes moderate.<br><br>Everything else steps up: threshold swimming, three long hill climbs, more run intervals, the longest Friday run yet.<br><br><strong>Triage if the semester demands it.</strong> Friel's definition of consistency — the least training that achieves the goal — means knowing which sessions are the goal. Here: Wednesday's intervals, Friday's long run, Saturday's ride, in that order. Rugby is fixed. Both optional 5Ks, even a strength segment, go before those three.<br><br><strong class="bike">🚴 Saturday is big.</strong> Long ride first thing, free afternoon after. Space it, eat between. It's the week's biggest aerobic deposit and the easiest to rationalise away after a hard week. Kit's ready Friday night. Go.`,
+
+  10: `<strong style="color:#f59e0b">Brick day.</strong> Saturday: an hour on the bike straight into twenty minutes of running, no break. Friel calls transitions the fourth discipline for a reason — the first five minutes will feel terrible, heavy legs and a spiking heart rate, and that is precisely the adaptation you're training. It settles by minute eight.<br><br><strong>Run intervals evolve.</strong> Wednesday shifts from short bursts to minute-long efforts. Daniels' point about interval work: short reps with short recoveries still reach VO₂max because you start the next one before you've dropped far; longer reps simply spend more time there. Very hard but controlled. Not finishing the last two at the prescribed effort is information, not failure.<br><br><strong class="rugby">🏉 Rugby legs and brick legs are different kinds of tired.</strong> Thursday's session, Friday's long run, Saturday's brick — a lot of leg in three days. Keep Friday genuinely moderate; don't chase it because you feel good.<br><br>The brick starts with the bike. There is no version where the bike gets skipped.`,
+
+  11: `<strong style="color:#f59e0b">Build phase summit.</strong> Longest ride yet, longest run yet, four long hill climbs, ten minute-long run intervals. The swim is sneakily harder — rest intervals shrink, same yardage, less recovery.<br><br><strong>You will feel flat this week, and that is different from being in the rut.</strong> Flat after a deliberately hard block with a recovery week seven days away is the plan working. Fitzgerald's rut is flat every week with no rest in sight. Don't skip sessions — take the optional 5Ks off the table, keep Tuesday's easy, and get through it. The adaptation lands during next week's rest, not during this one.<br><br><strong class="rugby">🏉 If the clubs have fixtures now,</strong> a match is a hard session and replaces Saturday's ride that week — don't do both. If it lands on a Sunday, the morning golf gives way and the evening climb becomes a gentle one — a match is the one thing that outranks an anchor.<br><br>If you feel worse than flat — genuinely run down, sleeping badly, losing the will — that's overreaching, and next week's recovery is sacred.`,
+
+  12: `<strong style="color:#60a5fa">♻ Recovery week — pre-peak reset. Strength is off.</strong> Volume drops sharply. Friday's sprint tri time trial is optional — a benchmark, not a race; a brick or an easy run is fine. Saturday is a twenty-minute spin.<br><br><strong>The most strategically important recovery week.</strong> The peak phase is the most demanding block; arrive under-recovered and you plateau instead of peak. Minimum effective dose applies to recovery too — the least training that keeps the adaptation is the right amount this week. Sleep. Eat properly: you're leaner than you were in spring and about to add load; a deficit now costs muscle, not fat.<br><br><strong>Something useful to do with a recovery-week swim:</strong> Swim Smooth's stroke-rate ramp test — a series of easy 50s at a gradually increasing stroke rate, noting effort and time — finds your own rhythm sweet spot. There's no magic number; most triathletes find theirs is higher than they think.<br><br>Thanksgiving is probably on the horizon and the peak phase runs into it. Plan the travel week now.`,
+
+  13: `<strong style="color:#ef4444">PEAK PHASE — the character of training changes.</strong> Intervals are gone; sustained tempo replaces them. Daniels calls threshold pace comfortably hard — about the pace you could race for an hour — and its purpose is teaching the body to clear lactate as fast as it makes it. Wednesday's tempo run is also the best data the watch will get all cycle. Friel's specificity principle applies now: economy develops at the pace you actually train, so hold the prescribed effort rather than drifting faster.<br><br>Saturday's ride jumps to the longest yet.<br><br><strong class="warn">⚠ This is likely Thanksgiving week if you started in early September.</strong> The plan bends: protect one long session, the ride or the run, and treat everything else as optional. Rugby clubs usually go quiet — recover, don't make up sessions. Come back to the plan next week, not to the guilt.<br><br><strong>Normal-week hierarchy:</strong> Friday's long run and Saturday's ride drive peak fitness. If something has to give, drop an optional 5K before either.`,
+
+  14: `<strong style="color:#ef4444">Peak volume — the biggest training week of the plan.</strong> The tri sessions repeat last week's exactly — same tempo bike, same tempo run, same long ride. The repetition is intentional; the body consolidates through repeated exposure. Execution, not novelty.<br><br><strong>Fatigue management is a skill now.</strong> Resting heart rate creeping up, restless sleep, a dip in motivation — these matter more this week than any other. Trending toward overreach? Swap an optional 5K for a walk with Mac and shorten Tuesday's. The 5K calories are trivial; pushing through isn't.<br><br><strong>Eat enough.</strong> Rugby, tempo work, long sessions and Mac's walks add up. Under-eating now impairs recovery and immunity right as finals approach. Carbs on big days, protein every meal.<br><br><strong class="str">💪 Keep the Nordics and the neck work.</strong> Peak phase plus fixtures plus fatigue is when hamstrings go and heads get hit. The Tuesday and Monday segments are the cheapest insurance you'll buy all season.`,
+
+  15: `<strong style="color:#ef4444">The summit.</strong> Two hours on the bike, the longest tempo run in the plan, the swim rest intervals at their shortest. The hardest single week.<br><br><strong class="bike">🚴 Saturday is enormous.</strong> Long ride first thing, free afternoon after. Real breakfast, carbs on the bike, water like it's still August. Hollow after the ride? Eat before anything else.<br><br><strong>Don't add anything.</strong> Friel's rule is that the plan is the minimum that works and anything beyond it is overtraining. Finals are close and this is the week the plan and the PhD collide hardest. The hierarchy holds: Saturday's ride, Friday's run, Wednesday's tempo. Rugby's fixed. Everything else bends.<br><br>Everything you've built over fifteen weeks — aerobic base, threshold capacity, the strength that kept your hamstrings intact through a rugby season, the swim feel that came back — is in the bank. Attia's centenarian decathlon is the point of all of it: this week is a deposit against the version of you at eighty. Week 16 cashes the cheque.`,
+
+  16: `<strong style="color:#a78bfa">TAPER WEEK — supercompensation. Strength is off.</strong> Volume drops dramatically and intensity stays — that's how a taper is built; Fitzgerald notes the 80/20 ratio deliberately tips toward hard work in a taper because easy volume is what gets cut. You're getting fitter by doing less.<br><br><strong>Tuesday is the third time trial.</strong> Same loop, same conditions, rested legs. Compare to weeks 2 and 9. That comparison — time and heart rate on your own course — is the honest answer to what sixteen weeks built. The watch is a footnote.<br><br><strong>And one more test, at home, barefoot:</strong> Araújo's sitting-rising test. Cross your legs, lower to the floor, stand back up. Ten points if you need no hands, knees or wobble; lose a point for each support. It's the longevity marker the Friday segment has been quietly training all cycle. Score yourself, write it down, do it again next cycle.<br><br><strong>You may feel strange mid-week.</strong> Restless, heavy-legged, irritable — the taper. By Thursday or Friday, a bounce.<br><br>Finals week. The anchors — Saturday tennis, Sunday golf, the sacred climb — are how you get through it. When it's done: a genuine week off, then we decide the next block from the data — half-Ironman, a strength year, another cycle.`,
+};
 
 // ── RENDER ──
 let currentWeek = 1;
@@ -366,8 +400,7 @@ function renderDots() {
     const btn = document.createElement("button");
     btn.className = "week-dot" + (w === currentWeek ? " active" : "") + (isRecovery(w)||isTaper(w) ? " recovery" : "");
     btn.textContent = w;
-    const pc = PHASE_COLORS[getPhase(w)];
-    if (w === currentWeek) btn.style.background = pc;
+    if (w === currentWeek) btn.style.background = PHASE_COLORS[getPhase(w)];
     btn.onclick = () => { currentWeek = w; render(); };
     c.appendChild(btn);
   }
@@ -384,6 +417,7 @@ function render() {
   let pLabel = phase.toUpperCase() + " PHASE";
   if (isRecovery(w)) pLabel += " · RECOVERY";
   if (isTaper(w)) pLabel = "TAPER · REDUCED VOLUME";
+  if (isTTWeek(w)) pLabel += " · 5K TT";
   document.getElementById("phaseLabel").textContent = pLabel;
 
   document.getElementById("prevBtn").disabled = w === 1;
@@ -401,10 +435,11 @@ function render() {
 
     const hdr = document.createElement("div");
     hdr.className = "day-header";
-    const nonWalk = day.sessions.filter(s => s.type !== "walk");
-    const tagsHtml = nonWalk.map(s => {
+    const shown = day.sessions.filter(s => s.type !== "walk");
+    const tagsHtml = shown.map(s => {
       const m = TYPE_META[s.type];
-      return `<span class="day-tag day-tag-${s.type}">${m.icon} ${s.type==="rest"?"Rest":s.t.split(":")[0]}</span>`;
+      const label = s.type === "rest" ? "Rest" : s.t.split(/[:—,]/)[0].trim();
+      return `<span class="day-tag day-tag-${s.type}${s.opt ? " opt" : ""}">${m.icon} ${label}${s.opt ? " (opt)" : ""}</span>`;
     }).join("");
     hdr.innerHTML = `<div><div class="day-name">${day.day}</div><div class="day-tags">${tagsHtml}</div></div><div class="chevron" id="chev${di}">▼</div>`;
 
@@ -415,7 +450,7 @@ function render() {
     day.sessions.forEach(s => {
       const m = TYPE_META[s.type];
       const sec = document.createElement("div");
-      sec.className = "session";
+      sec.className = "session" + (s.opt ? " opt" : "");
       sec.style.setProperty("--session-color", m.color);
       sec.innerHTML = `<div class="session-title" style="color:${m.color}">${m.icon} ${s.t}</div><div class="session-detail">${s.d}</div>`;
       detail.appendChild(sec);
@@ -431,7 +466,6 @@ function render() {
     container.appendChild(card);
   });
 
-  // Notes
   document.getElementById("notesWeekNum").textContent = w;
   document.getElementById("notesBody").innerHTML = NOTES[w] || "";
 }
