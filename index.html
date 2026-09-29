@@ -259,9 +259,7 @@ const EX = {
   birddog:    { name:"Bird dog", q:"McGill bird dog big 3", cue:"On all fours, reach one arm and the opposite leg long. Hips stay level; no twisting or arching to get the leg higher." },
   neck4:      { name:"Four-way isometric neck", q:"4 way isometric neck exercise hand resistance", cue:"Hand on the forehead, the back of the head, then each side. Build to moderate pressure over a couple of seconds; the head doesn't move. No jerking, no pain." },
   deadhang:   { name:"Dead hang", q:"dead hang exercise how to", cue:"Hang from a bar with straight arms, shoulders gently engaged rather than shrugged to the ears. Breathe." },
-  pallof:     { name:"Pallof press", q:"pallof press band how to", cue:"Band anchored to one side at chest height. Press it straight out and resist the pull back toward the anchor; the torso doesn't rotate." },
   copenhagen: { name:"Copenhagen plank", q:"copenhagen plank progression", cue:"Side plank with the top leg on a chair and the bottom leg free. Knee on the chair is the easier version, ankle on the chair the harder." },
-  rollout:    { name:"Ab-wheel or slider rollout", q:"ab wheel rollout proper form beginner", cue:"From the knees, roll out only as far as you can without the lower back sagging, then pull back with the abs." },
   bridge:     { name:"Glute bridge", q:"glute bridge proper form", cue:"Feet flat, drive through the heels, squeeze the glutes at the top. Ribs down; the lower back shouldn't arch to finish the rep." },
   slbridge:   { name:"Single-leg glute bridge", q:"single leg glute bridge form", cue:"One foot down, the other knee pulled in. Keep the hips level as you lift." },
   slrdl:      { name:"Single-leg RDL", q:"single leg romanian deadlift bodyweight form", cue:"Hinge at the hip on one leg, free leg reaching back in line with the torso, slight bend in the standing knee. Hips stay square to the floor." },
@@ -285,7 +283,6 @@ const EX = {
   squat:      { name:"Bodyweight squat", q:"bodyweight squat proper form", cue:"Feet about shoulder width, sit down between the heels to full depth, knees tracking over the toes, chest up." },
   splitsquat: { name:"Split squat", q:"split squat proper form", cue:"Staggered stance; drop the back knee straight down with the front heel planted. Feet stay put between reps." },
   bulgarian:  { name:"Bulgarian split squat", q:"bulgarian split squat proper form", cue:"Back foot on a chair, front foot far enough forward that the front heel stays down at the bottom. The front leg does the work." },
-  stepup:     { name:"Step-up", q:"step up exercise proper form", cue:"Whole foot on a sturdy chair or bench; drive up through that leg without pushing off the back foot." },
   calfraise:  { name:"Single-leg calf raise", q:"single leg calf raise form", cue:"On a step edge if you have one. All the way down, all the way up, a beat at the top." },
   slbalance:  { name:"Single-leg stance, eyes closed", q:"single leg balance eyes closed exercise", cue:"Stand on one leg beside a wall and close your eyes. The small ankle wobbles are the training." },
   pistol:     { name:"Pistol squat progression", q:"pistol squat progression box", cue:"Squat on one leg down to a box or chair, other leg forward, then stand. Lower the box as you get stronger; hold a door frame if you need it." },
@@ -317,31 +314,212 @@ function renderLibrary() {
   box.innerHTML = `<div class="lib-h">STRENGTH EXERCISES</div>${exHtml}<div class="lib-h">TERMS IN THE WORKOUTS</div>${termHtml}`;
 }
 
-// ── STRENGTH: four ~12–15 min segments, done at home, none on climbing days ──
+// ── STRENGTH TIME MODEL ──
+// Durations are estimated bottom-up, not guessed: reps × seconds per rep (holds: hold + reset) × sides,
+// plus side switches, changeovers between exercises and blocks, rest between rounds, and a set-up allowance.
+// Every parameter below is an assumption. Time a real session and recalibrate them if the estimate is off.
+const TM = {
+  setup: 30,        // clear space, fetch band / chair / jug
+  changeIn: 15,     // moving between exercises inside a superset
+  changeBlock: 25,  // moving to the next block and setting it up
+  sideSwitch: 5,    // swapping legs or sides within a set
+  tierRest: 10,     // pause between pyramid tiers on one-sided holds
+  holdReset: 3,     // getting in and out of position between holds
+  carryMps: 1.1,    // loaded suitcase-carry walking speed, metres per second
+  carryPickup: 5,   // picking up and setting down the load, per hand
+};
+function exParts(e) {
+  const sides = e.sides || 1, sw = e.switch ?? TM.sideSwitch;
+  if (e.yd) {
+    const perSide = (e.yd * 0.9144) / TM.carryMps + TM.carryPickup;
+    return { work: perSide * sides, change: sw * (sides - 1), rest: 0 };
+  }
+  const perRep = e.hold ? e.hold + (e.reset ?? TM.holdReset) : e.sec;
+  if (Array.isArray(e.reps)) {
+    const tiers = e.reps.length, total = e.reps.reduce((a, b) => a + b, 0);
+    if (sides === 2) return { work: total * 2 * perRep, change: sw * (tiers * 2 - 1), rest: 0 };
+    return { work: total * perRep, change: 0, rest: TM.tierRest * (tiers - 1) };
+  }
+  return { work: e.reps * perRep * sides, change: sw * (sides - 1), rest: 0 };
+}
+function segParts(seg) {
+  const p = { work: 0, rest: 0, change: TM.setup + (seg.blocks.length - 1) * TM.changeBlock };
+  for (const b of seg.blocks) {
+    const r = b.rounds || 1;
+    for (const e of b.ex) { const x = exParts(e); p.work += r * x.work; p.change += r * x.change; p.rest += r * x.rest; }
+    p.change += r * (b.ex.length - 1) * TM.changeIn;
+    p.rest += (r - 1) * (b.rest || 0);
+  }
+  p.total = p.work + p.rest + p.change;
+  return p;
+}
+function doseText(e) {
+  if (e.dose) return e.dose;
+  const each = e.sides === 2 ? ` each ${e.unit || "side"}` : "";
+  if (e.yd) return `${e.yd} yd each hand`;
+  if (Array.isArray(e.reps)) return `${e.reps.join("-")} × ${e.hold} s holds${e.sides === 2 ? ", each side" : ""}`;
+  if (e.hold) return (e.reps > 1 ? `${e.reps} × ${e.hold} s` : `${e.hold} s`) + each;
+  return `${e.reps}${each || " reps"}`;
+}
+function renderSeg(n, seg) {
+  const p = segParts(seg), L = "ABCDEFG", lines = [seg.intro, ""];
+  seg.blocks.forEach((b, i) => {
+    const r = b.rounds || 1, multi = b.ex.length > 1;
+    if (r > 1) lines.push(`${L[i]} · ${multi ? `${r} rounds, back to back, ${b.rest} s rest after each round` : `${r} sets, ${b.rest} s rest`}`);
+    b.ex.forEach((e, j) => lines.push(`${multi ? L[i] + (j + 1) : L[i]}. [[${e.label}|${e.k}]]: ${doseText(e)}${e.note ? ` — ${e.note}` : ""}`));
+    lines.push("");
+  });
+  if (seg.outro) lines.push(seg.outro);
+  const m = x => (x / 60).toFixed(1);
+  lines.push(`Estimate ≈ ${m(p.total)} min: ${m(p.work)} working · ${m(p.rest)} resting · ${m(p.change)} set-up and changeovers.`);
+  return [`Strength ${n} — ${seg.name}: ~${Math.round(p.total / 60)} min`, lines.join("\n")];
+}
+
+// ── STRENGTH: four ~15 min segments, done at home, none on climbing days ──
 // Mon single-leg · Tue push + pull (upper body only) · Thu core + neck (before contact, leg-light)
 // Fri posterior chain (Nordics as far from Thursday's rugby as the week allows)
-const STRENGTH = {
+const SEG = {
   legs: {
-    base:  ["Strength 1 — Single-Leg + Floor + Balance: 12 min","Stability is a pillar, not a warm-up. This opens with the sitting-rising test, practised.\n\n1. [[Floor-to-stand|floorstand]]: sit down to the floor and stand back up using as little hand or knee support as you can — 5 reps\n2. [[Bodyweight squat|squat]], full depth: 3 × 15\n3. [[Split squat|splitsquat]]: 3 × 10 each leg\n4. [[Single-leg calf raise|calfraise]]: 3 × 12 each leg\n5. [[Single-leg stance, eyes closed|slbalance]]: 2 × 20 s each leg\n\nRest 60 s."],
-    build: ["Strength 1 — Single-Leg + Floor + Carry: 14 min","The carry is the one thing here that isn't bodyweight — it needs a heavy object, not a gym. A full water jug or a loaded backpack. The first week of the Bulgarians, stop each set two or three reps short of failure; Tuesday's bike comes next.\n\n1. [[Floor-to-stand|floorstand]], legs crossed: 5 reps, no hands if you can\n2. [[Bulgarian split squat|bulgarian]], back foot on a chair: 3 × 8 each leg\n3. [[Step-up|stepup]] onto a chair or bench: 2 × 10 each leg\n4. [[Single-leg calf raise|calfraise]]: 3 × 15 each leg\n5. [[Suitcase carry|suitcase]], one hand: 2 × 30–40 yd each side — stand tall, don't lean away from the load\n\nRest 60–90 s."],
-    peak:  ["Strength 1 — Single-Leg + Floor + Carry: 15 min","Peak progressions.\n\n1. [[Floor-to-stand|floorstand]], legs crossed, slow both ways: 5 reps — work on less rotation as you rise\n2. [[Bulgarian split squat|bulgarian]], 3 s down, 1 s pause: 3 × 8 each leg\n3. [[Pistol squat progression|pistol]] (to a box, or assisted): 3 × 5 each leg\n4. [[Single-leg calf raise|calfraise]]: 3 × 15 each leg\n5. [[Suitcase carry|suitcase]], heavier: 3 × 40 yd each side\n\nRest 60–90 s."],
-  },
-  core: {
-    base:  ["Strength 3 — Core + Neck: 12 min","McGill's Big Three plus neck. Holds are 10 s. Descending pyramid: 5 reps, 3 reps, 1 rep — that is one exercise. Leg-light on purpose; rugby tonight.\n\n1. [[McGill curl-up|curlup]]: 5-3-1 × 10 s (hands under the lumbar arch, lift head and shoulders as one unit, don't flatten the back)\n2. [[Side plank|sideplank]], knees bent: 5-3-1 × 10 s each side\n3. [[Bird dog|birddog]]: 5-3-1 × 10 s each side (hips square, no twist)\n4. [[Four-way isometric neck|neck4]], hand resistance: 2 × 10 s forward, back, left, right — push into your hand, head doesn't move\n5. [[Dead hang|deadhang]] from a bar: 2 × 20–30 s (doorframe bar, or the rec centre)\n\nShort rests. This trains endurance: a back usually fails when its stabilisers fatigue."],
-    build: ["Strength 3 — Core + Neck: 14 min","Big Three progress; neck extension gets extra attention.\n\n1. [[McGill curl-up|curlup]]: 6-4-2 × 10 s\n2. [[Side plank|sideplank]], legs straight: 6-4-2 × 10 s each side\n3. [[Bird dog|birddog]], 3 s squeeze at full extension: 6-4-2 each side\n4. [[Pallof press|pallof]] (band): 2 × 10 each side (skip if no band)\n5. [[Four-way isometric neck|neck4]]: 2 × 12 s each direction, plus a third set backward\n6. [[Dead hang|deadhang]]: 2 × 30 s\n\nRest 30–45 s."],
-    peak:  ["Strength 3 — Core + Neck: 15 min","Hardest progressions. Scale any of these back to build versions rather than cheat the form.\n\n1. [[McGill curl-up|curlup]]: 6-4-2 × 10 s\n2. [[Side plank|sideplank]] with top-leg lift: 6-4-2 × 10 s each side\n3. [[Bird dog|birddog]], 5 s hold: 5-3-1 each side\n4. [[Copenhagen plank|copenhagen]], top leg on a chair: 2 × 15–20 s each side (adductors — rugby's groin insurance)\n5. [[Four-way isometric neck|neck4]]: 3 × 12 s backward, 2 × 10 s the others\n6. [[Dead hang|deadhang]]: 2 × 30–40 s\n\nOptional if form is clean: [[ab-wheel or slider rollout|rollout]] 2 × 6. Stop if the lower back rounds."],
+    base: { name: "Single-Leg + Floor + Balance",
+      intro: "Stability is a pillar, not a warm-up. This opens with the sitting-rising test, practised.",
+      blocks: [
+        { ex: [ { k:"floorstand", label:"Floor-to-stand", reps:5, sec:8, note:"sit to the floor and stand back up with as little hand or knee support as you can" } ] },
+        { rounds:3, rest:40, ex: [
+          { k:"splitsquat", label:"Split squat", reps:10, sides:2, unit:"leg", sec:3 },
+          { k:"calfraise", label:"Single-leg calf raise", reps:10, sides:2, unit:"leg", sec:3 } ] },
+        { rounds:2, rest:30, ex: [
+          { k:"squat", label:"Bodyweight squat", reps:12, sec:3, note:"full depth" },
+          { k:"slbalance", label:"Single-leg stance, eyes closed", reps:1, hold:20, sides:2, unit:"leg" } ] },
+      ] },
+    build: { name: "Single-Leg + Floor + Carry",
+      intro: "The carry is the one thing here that isn't bodyweight: a full water jug or a loaded backpack, not a gym.",
+      blocks: [
+        { ex: [ { k:"floorstand", label:"Floor-to-stand, legs crossed", reps:5, sec:10, note:"no hands if you can" } ] },
+        { rounds:3, rest:40, ex: [
+          { k:"bulgarian", label:"Bulgarian split squat", reps:8, sides:2, unit:"leg", sec:3.5, switch:8, note:"back foot on a chair" },
+          { k:"calfraise", label:"Single-leg calf raise", reps:12, sides:2, unit:"leg", sec:3 } ] },
+        { rounds:2, rest:20, ex: [
+          { k:"suitcase", label:"Suitcase carry", yd:35, sides:2, note:"stand tall, don't lean away from the load" } ] },
+      ],
+      outro: "The first week of the Bulgarians, stop each set two or three reps short of failure; Tuesday's bike comes next." },
+    peak: { name: "Single-Leg + Floor + Carry",
+      intro: "Peak progressions: harder variants rather than more sets.",
+      blocks: [
+        { ex: [ { k:"floorstand", label:"Floor-to-stand, legs crossed", reps:5, sec:12, note:"slow both ways; work on less rotation as you rise" } ] },
+        { rounds:2, rest:40, ex: [
+          { k:"bulgarian", label:"Bulgarian split squat", reps:6, sides:2, unit:"leg", sec:5.5, switch:8, note:"3 s down, 1 s pause" },
+          { k:"calfraise", label:"Single-leg calf raise", reps:12, sides:2, unit:"leg", sec:3 } ] },
+        { rounds:2, rest:30, ex: [
+          { k:"pistol", label:"Pistol squat progression", reps:5, sides:2, unit:"leg", sec:6, note:"to a box, or assisted" },
+          { k:"suitcase", label:"Suitcase carry", yd:40, sides:2, note:"heavier" } ] },
+      ] },
   },
   push: {
-    base:  ["Strength 2 — Push + Pull + Antagonist: 12 min","Push and a horizontal pull, the one pattern nothing else in your week trains. Upper body only.\n\n1. [[Incline push-up|pushinc]], hands on a bench or counter: 3 × 10–12\n2. [[Inverted row|invrow]] under a sturdy table (or a [[doorframe towel row|towelrow]], or band row): 3 × 8–10\n3. [[Pike push-up|pike]]: 2 × 8 (hips high, push toward your feet)\n4. [[Band pull-apart|pullapart]]: 2 × 15\n5. [[Reverse wrist curl|wristcurl]], bottle or band: 2 × 15\n\nRest 45–60 s."],
-    build: ["Strength 2 — Push + Pull + Antagonist: 14 min","Full push-ups arrive; chest development starts to show from here.\n\n1. [[Standard push-up|pushup]], chest to floor: 3 × 10–15\n2. [[Inverted row|invrow]], feet further out: 3 × 8–10\n3. [[Pike push-up|pike]]: 2 × 10\n4. [[Shoulder external rotation|extrot]] (band): 2 × 12 each side\n5. [[Reverse wrist curl|wristcurl]]: 2 × 15\n\nOptional: [[band pull-apart|pullapart]] 2 × 15. Rest 60 s."],
-    peak:  ["Strength 2 — Push + Pull + Antagonist: 15 min","Hardest push variants. Scale to build versions if form breaks.\n\n1. [[Decline push-up|pushdec]], feet on a chair: 3 × 8–10\n2. [[Diamond|pushdia]] or [[archer push-up|pusharch]]: 2 × 6–8\n3. [[Inverted row|invrow]], feet elevated: 3 × 8\n4. [[Shoulder external rotation|extrot]]: 2 × 12 each side\n5. [[Reverse wrist curl|wristcurl]]: 2 × 15\n\nRest 60 s."],
+    base: { name: "Push + Pull + Antagonist",
+      intro: "Push, the horizontal pull nothing else in your week trains, and the shoulder, forearm and grip work that balances climbing and swimming. Upper body only.",
+      blocks: [
+        { rounds:3, rest:40, ex: [
+          { k:"pushinc", label:"Incline push-up", reps:12, sec:3, note:"hands on a bench or counter" },
+          { k:"invrow", label:"Inverted row", reps:10, sec:3.5, note:"under a sturdy table, or a [[doorframe towel row|towelrow]]" } ] },
+        { rounds:2, rest:30, ex: [
+          { k:"pike", label:"Pike push-up", reps:10, sec:3.5 },
+          { k:"pullapart", label:"Band pull-apart", reps:15, sec:2.5 } ] },
+        { rounds:2, rest:20, ex: [
+          { k:"deadhang", label:"Dead hang", reps:1, hold:30, reset:5, note:"doorframe bar or the rec centre" },
+          { k:"wristcurl", label:"Reverse wrist curl", reps:15, sec:2.5, note:"bottle or band" } ] },
+      ] },
+    build: { name: "Push + Pull + Antagonist",
+      intro: "Full push-ups arrive; chest development starts to show from here.",
+      blocks: [
+        { rounds:3, rest:40, ex: [
+          { k:"pushup", label:"Push-up", reps:12, sec:3, note:"chest to the floor" },
+          { k:"invrow", label:"Inverted row", reps:10, sec:3.5, note:"feet further out" } ] },
+        { rounds:2, rest:30, ex: [
+          { k:"pike", label:"Pike push-up", reps:10, sec:3.5 },
+          { k:"extrot", label:"Shoulder external rotation", reps:10, sides:2, sec:3, note:"band, elbow at your side" } ] },
+        { rounds:2, rest:20, ex: [
+          { k:"deadhang", label:"Dead hang", reps:1, hold:30, reset:5 },
+          { k:"wristcurl", label:"Reverse wrist curl", reps:15, sec:2.5 } ] },
+      ] },
+    peak: { name: "Push + Pull + Antagonist",
+      intro: "Hardest push variants. Scale to the build versions if form breaks.",
+      blocks: [
+        { rounds:3, rest:40, ex: [
+          { k:"pushdec", label:"Decline push-up", reps:10, sec:3.5, note:"feet on a chair" },
+          { k:"invrow", label:"Inverted row", reps:8, sec:3.5, note:"feet raised" } ] },
+        { rounds:2, rest:30, ex: [
+          { k:"pushdia", label:"Diamond push-up", reps:8, sec:4, note:"or an [[archer push-up|pusharch]], alternating sides" },
+          { k:"extrot", label:"Shoulder external rotation", reps:10, sides:2, sec:3 } ] },
+        { rounds:2, rest:20, ex: [
+          { k:"deadhang", label:"Dead hang", reps:1, hold:40, reset:5 },
+          { k:"wristcurl", label:"Reverse wrist curl", reps:15, sec:2.5 } ] },
+      ] },
+  },
+  core: {
+    base: { name: "Core + Neck",
+      intro: "McGill's Big Three plus neck. Holds are 10 s in a descending pyramid: 5 holds, then 3, then 1. Leg-light on purpose; rugby tonight.",
+      blocks: [
+        { ex: [ { k:"curlup", label:"McGill curl-up", reps:[5,3,1], hold:10, note:"hands under the lumbar arch; lift head and shoulders as one unit" } ] },
+        { ex: [ { k:"sideplank", label:"Side plank, knees bent", reps:[5,3,1], hold:10, sides:2, note:"alternate sides by tier" } ] },
+        { ex: [ { k:"birddog", label:"Bird dog", reps:[5,3,1], hold:10, sides:2, note:"hips square, no twist" } ] },
+        { rounds:2, rest:10, ex: [ { k:"neck4", label:"Four-way isometric neck", reps:4, hold:10, dose:"10 s each way: forward, back, left, right", note:"push into your hand; the head doesn't move" } ] },
+      ],
+      outro: "This trains endurance: a back usually fails when its stabilisers fatigue." },
+    build: { name: "Core + Neck",
+      intro: "Same pyramid, harder variants. Progress by difficulty rather than longer holds.",
+      blocks: [
+        { ex: [ { k:"curlup", label:"McGill curl-up", reps:[5,3,1], hold:10, note:"elbows lifted slightly off the floor; brace before each hold" } ] },
+        { ex: [ { k:"sideplank", label:"Side plank, legs straight", reps:[5,3,1], hold:10, sides:2, note:"alternate sides by tier" } ] },
+        { ex: [ { k:"birddog", label:"Bird dog", reps:[5,3,1], hold:10, sides:2, note:"reach long rather than high; hips level" } ] },
+        { rounds:2, rest:10, ex: [ { k:"neck4", label:"Four-way isometric neck", reps:4, hold:12, dose:"12 s each way: forward, back, left, right" } ] },
+      ] },
+    peak: { name: "Core + Neck",
+      intro: "Fewer holds, harder variants; the time goes to the Copenhagen plank. Scale back to the build versions rather than cheat the form.",
+      blocks: [
+        { ex: [ { k:"curlup", label:"McGill curl-up", reps:[5,3,1], hold:10 } ] },
+        { ex: [ { k:"sideplank", label:"Side plank with top-leg lift", reps:[4,2,1], hold:10, sides:2 } ] },
+        { ex: [ { k:"birddog", label:"Bird dog", reps:[4,2,1], hold:10, sides:2 } ] },
+        { ex: [ { k:"copenhagen", label:"Copenhagen plank", reps:2, hold:15, reset:5, sides:2, note:"top leg on a chair; adductors, the groin insurance" } ] },
+        { rounds:2, rest:10, ex: [ { k:"neck4", label:"Four-way isometric neck", reps:4, hold:12, dose:"12 s each way: forward, back, left, right" } ] },
+      ] },
   },
   posterior: {
-    base:  ["Strength 4 — Posterior Chain: 12 min","Hinge, glutes, hamstrings, and the hip stabiliser that guards your knees on every running day. Friday on purpose: the hamstring work lands as far from the next rugby session as the week allows.\n\n1. [[Glute bridge|bridge]]: 3 × 15 (2 s squeeze at the top)\n2. [[Single-leg RDL|slrdl]], bodyweight: 3 × 8 each leg (hinge from the hip, slight knee bend, balance)\n3. [[Reverse lunge|revlunge]]: 3 × 10 each leg (step back, drop straight down)\n4. [[Side-lying hip abduction|hipabd]]: 2 × 15 each side (slow, toes forward — glute med)\n\nRest 60 s."],
-    build: ["Strength 4 — Posterior Chain: 14 min","Nordics arrive. Low dose on purpose: low volumes build the same hamstring strength and fascicle length as high ones, and soreness is why people quit. Any soreness has nearly a week to clear before the next rugby session.\n\n1. [[Single-leg glute bridge|slbridge]]: 3 × 10 each leg\n2. [[Single-leg RDL|slrdl]], 3 s lowering: 3 × 8 each leg\n3. [[Nordic curl|nordic]], eccentric only, feet anchored under a couch: 2 × 4 (lower as slowly as you can, push back up with your hands)\n4. [[Side-lying hip abduction|hipabd]] or [[banded lateral walk|latwalk]]: 2 × 15 each side\n5. [[Reverse lunge|revlunge]] with knee drive: 2 × 10 each leg\n\nRest 60–90 s. Expect a sore fortnight from the Nordics. If the long run has flattened you, do this later in the day rather than straight after."],
-    peak:  ["Strength 4 — Posterior Chain: 15 min","Peak progressions.\n\n1. [[Single-leg glute bridge|slbridge]], 3 s pause at top: 3 × 10 each leg\n2. [[Single-leg RDL|slrdl]] with reach to the floor: 3 × 8 each leg\n3. [[Nordic curl|nordic]], eccentric: 3 × 5\n4. [[Lateral lunge|latlunge]]: 2 × 8 each side (glute med and adductors together)\n5. [[Reverse lunge|revlunge]], 2 s pause at bottom: 2 × 8 each leg\n\nRest 60–90 s."],
+    base: { name: "Posterior Chain",
+      intro: "Hinge, glutes, hamstrings, and the hip stabiliser that guards your knees on every running day. Friday on purpose: the hamstring work lands as far from the next rugby session as the week allows.",
+      blocks: [
+        { rounds:3, rest:40, ex: [
+          { k:"bridge", label:"Glute bridge", reps:12, sec:5, note:"2 s squeeze at the top" },
+          { k:"slrdl", label:"Single-leg RDL", reps:8, sides:2, unit:"leg", sec:4, note:"bodyweight; hinge from the hip, slight knee bend" } ] },
+        { rounds:2, rest:30, ex: [
+          { k:"revlunge", label:"Reverse lunge", reps:8, sides:2, unit:"leg", sec:3.5 },
+          { k:"hipabd", label:"Side-lying hip abduction", reps:12, sides:2, sec:2.5, switch:8, note:"slow, toes forward" } ] },
+      ] },
+    build: { name: "Posterior Chain",
+      intro: "Nordics arrive. Low dose on purpose: low volumes build the same hamstring strength and fascicle length as high ones, and soreness is why people quit. Any soreness has nearly a week to clear before the next rugby session.",
+      blocks: [
+        { rounds:3, rest:40, ex: [
+          { k:"slbridge", label:"Single-leg glute bridge", reps:10, sides:2, unit:"leg", sec:3 },
+          { k:"slrdl", label:"Single-leg RDL", reps:6, sides:2, unit:"leg", sec:4.5, note:"3 s lowering" } ] },
+        { rounds:2, rest:45, ex: [
+          { k:"nordic", label:"Nordic curl", reps:4, sec:8, note:"eccentric only, feet anchored under a couch; lower as slowly as you can, push back up with your hands" },
+          { k:"hipabd", label:"Side-lying hip abduction", reps:15, sides:2, sec:2.5, switch:8, note:"or a [[banded lateral walk|latwalk]]" } ] },
+      ],
+      outro: "Expect a sore fortnight from the Nordics. If the long run has flattened you, do this later in the day rather than straight after." },
+    peak: { name: "Posterior Chain",
+      intro: "Peak progressions: harder variants, and a third set of Nordics.",
+      blocks: [
+        { rounds:2, rest:40, ex: [
+          { k:"slbridge", label:"Single-leg glute bridge", reps:8, sides:2, unit:"leg", sec:6, note:"3 s pause at the top" },
+          { k:"slrdl", label:"Single-leg RDL", reps:6, sides:2, unit:"leg", sec:5, note:"reach to the floor" } ] },
+        { rounds:3, rest:45, ex: [
+          { k:"nordic", label:"Nordic curl", reps:5, sec:8, note:"eccentric only" },
+          { k:"latlunge", label:"Lateral lunge", reps:6, sides:2, sec:4, note:"glute med and adductors together" } ] },
+      ] },
   },
 };
+const SEG_ORDER = { legs: 1, push: 2, core: 3, posterior: 4 };
+const STRENGTH = Object.fromEntries(Object.entries(SEG).map(([k, phases]) =>
+  [k, Object.fromEntries(Object.entries(phases).map(([ph, seg]) => [ph, renderSeg(SEG_ORDER[k], seg)]))]));
 
 // ── EVERYTHING ELSE ──
 const FIVEK = ["5K — Rice Trail","From 2324 Dryden Rd around the campus perimeter (~3.1 mi).\nRecovery-to-easy pace: it's the morning after Tuesday's bike, so let the legs set the speed. Cut it to 2 miles if they're heavy.\nWeeks 5+: easy-to-moderate on mornings you feel good.\nDoesn't feed the watch's fitness estimate — Monday's and Friday's runs do."];
